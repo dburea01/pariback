@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\Country;
+use Illuminate\Support\Facades\Storage;
 
 class CountryRepository
 {
@@ -16,19 +17,21 @@ class CountryRepository
         return $countries;
     }
 
-    public function store(array $data): Country
+    public function store(array $data, string $icon): Country
     {
         $country = new Country();
         $country->fill($data);
+        $country->icon = $icon;
         $country->status = 'INACTIVE';
         $country->save();
 
         return $country;
     }
 
-    public function update(Country $country, array $data): Country
+    public function update(Country $country, array $data, string $icon): Country
     {
         $country->fill($data);
+        $country->icon = $icon;
         $country->save();
 
         return $country;

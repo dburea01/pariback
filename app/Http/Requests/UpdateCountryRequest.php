@@ -26,7 +26,8 @@ class UpdateCountryRequest extends FormRequest
         return [
             'local_name' => 'required',
             'english_name' => 'required',
-            'position' => 'required|int|gt:0'
+            'position' => 'required|int|gt:0',
+            'icon' => 'mimes:jpg,bmp,png|max:500'
         ];
     }
 }

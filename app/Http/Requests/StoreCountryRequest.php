@@ -28,7 +28,8 @@ class StoreCountryRequest extends FormRequest
             'id' => 'required|max:2|unique:countries,id',
             'local_name' => 'required',
             'english_name' => 'required',
-            'position' => 'required|int|gt:0'
+            'position' => 'required|int|gt:0',
+            'icon' => 'required|mimes:jpg,bmp,png|max:500'
         ];
     }
 }
