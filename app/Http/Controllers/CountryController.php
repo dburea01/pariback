@@ -69,7 +69,8 @@ class CountryController extends Controller
     public function uploadImage(string $countryId, $request)
     {
         $name = 'flag_' . $countryId . '.' . $request->icon->getClientOriginalExtension();
-
-        return Storage::putFileAs('/public/countries', $request->icon, $name);
+        // dd($request->icon);
+        Storage::disk('public')->putFileAs('/countries', $request->icon, $name);
+        return $name;
     }
 }

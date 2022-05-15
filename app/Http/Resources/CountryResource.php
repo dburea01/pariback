@@ -20,7 +20,7 @@ class CountryResource extends JsonResource
             'english_name' => $this->english_name,
             'position' => $this->position,
             'icon' => $this->icon,
-            'icon_url' => asset('countries/' . $this->icon),
+            'icon_url' => asset('storage/countries/' . $this->icon),
             'status' => $this->status
         ];
     }
