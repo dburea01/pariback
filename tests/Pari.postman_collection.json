@@ -1,0 +1,1304 @@
+{
+	"info": {
+		"_postman_id": "bd8ed441-cb3a-4180-8217-80619705cd1e",
+		"name": "Pari",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "get cookie",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/sanctum/csrf-cookie",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"sanctum",
+								"csrf-cookie"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register KO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+									"",
+									"tests[\"Token is generated\"] = jsonData.hasOwnProperty('token');",
+									"tests[\"user is supplied\"] = jsonData.hasOwnProperty('user');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "fr",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{path}}/register",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+									"",
+									"tests[\"Token is generated\"] = jsonData.hasOwnProperty('token');",
+									"tests[\"user is supplied\"] = jsonData.hasOwnProperty('user');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "fr",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Mon nom",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "azaz.rty@tototrtsdf",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "azerty01",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "azerty01",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{path}}/register",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validate registration KO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+									"",
+									"tests[\"Token is generated\"] = jsonData.hasOwnProperty('token');",
+									"tests[\"user is supplied\"] = jsonData.hasOwnProperty('user');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "fr",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{path}}/validate-registration",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"validate-registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validate registration KO2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+									"",
+									"tests[\"Token is generated\"] = jsonData.hasOwnProperty('token');",
+									"tests[\"user is supplied\"] = jsonData.hasOwnProperty('user');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "emaoil.email@emaoil.com",
+									"type": "default"
+								},
+								{
+									"key": "token_validation_registration",
+									"value": "azertyuioplkjhgfdsqa",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{path}}/validate-registration",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"validate-registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validate registration OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+									"",
+									"tests[\"Token is generated\"] = jsonData.hasOwnProperty('token');",
+									"tests[\"user is supplied\"] = jsonData.hasOwnProperty('user');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "nenom@gmail.comeeseeddde",
+									"type": "default"
+								},
+								{
+									"key": "token_validation_registration",
+									"value": "0SSRVLPHy9fisTklgp2j",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{path}}/validate-registration",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"validate-registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login KO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 401\"] = responseCode.code === 401;",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "email",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{path}}/login",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+									"",
+									"tests[\"Token is generated\"] = jsonData.hasOwnProperty('token');",
+									"tests[\"user is supplied\"] = jsonData.hasOwnProperty('user');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "hzieme@example.net",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "azerty",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{path}}/login",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout with bearer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.access_token);",
+									"",
+									"tests[\"Token is generated\"] = jsonData.hasOwnProperty('access_token');",
+									"tests[\"user id supplied\"] = jsonData.hasOwnProperty('id');",
+									"tests[\"user name id supplied\"] = jsonData.hasOwnProperty('name');"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{path}}/logout",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "forgot password KO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 401\"] = responseCode.code === 401;",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{path}}/forgot-password",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "forgot password OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 401\"] = responseCode.code === 401;",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "fr",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "lauryn38@example.net",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{path}}/forgot-password",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password KO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 401\"] = responseCode.code === 401;",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "lauryn38@example.net",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "toto",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "password_confirmation",
+									"value": "titi",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "token",
+									"value": "azerty",
+									"type": "default",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{path}}/reset-password",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password OK",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 401\"] = responseCode.code === 401;",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "lauryn38@example.net",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "azerty01toto",
+									"type": "default"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "azerty01toto",
+									"type": "default"
+								},
+								{
+									"key": "token",
+									"value": "LbgvNXKgCE3xBQDtweaE",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{path}}/reset-password",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Countries",
+			"item": [
+				{
+					"name": "countries",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/countries",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"countries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "countries sorted",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/countries?sort=position",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"countries"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "position"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "country with errors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : \"TOTOTO\",\r\n    \"local_name\" : \"ESPANIA\",\r\n    \"english_name\" : \"SPAIN\",\r\n    \"position\" : 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/countries",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"countries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "country OK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "icon",
+									"type": "file",
+									"src": "/C:/Users/Domi/Pictures/Screenpresso/2021-12-05_14h59_35.png"
+								},
+								{
+									"key": "id",
+									"value": "jj",
+									"type": "default"
+								},
+								{
+									"key": "local_name",
+									"value": "country with image",
+									"type": "default"
+								},
+								{
+									"key": "english_name",
+									"value": "english name",
+									"type": "default"
+								},
+								{
+									"key": "position",
+									"value": "10",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/countries",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"countries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "country OK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "icon",
+									"type": "file",
+									"src": "/C:/Users/Domi/Pictures/Screenpresso/2021-11-28_09h59_57.png"
+								},
+								{
+									"key": "local_name",
+									"value": "local name",
+									"type": "text"
+								},
+								{
+									"key": "english_name",
+									"value": "english name",
+									"type": "default"
+								},
+								{
+									"key": "position",
+									"value": "33",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/countries/xx?_method=PUT",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"countries",
+								"xx"
+							],
+							"query": [
+								{
+									"key": "_method",
+									"value": "PUT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "country",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"local_name\" : \"FR MODIFIE\",\r\n    \"english_name\" : \"FR UPDATED\",\r\n    \"position\" : 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/countries/IT",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"countries",
+								"IT"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sports",
+			"item": [
+				{
+					"name": "sports",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "fr",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/sports",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"sports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sports with errors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/sports",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"sports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sport OK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\" : \"FOOTrrr\",\r\n    \"english_name\" : \"footchl\",\r\n    \"french_name\" : \"foot français\",\r\n    \"position\" : 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/sports",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"sports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sport",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "fr",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{path}}/sports/FOOTrrr",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"sports",
+								"FOOTrrr"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sport OK",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "fr",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"french_name\" : \"FR MODIFIE  zezer\",\r\n    \"position\" : \"101\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/sports/FOOTrrr",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"sports",
+								"FOOTrrr"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sport",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"local_name\" : \"FR MODIFIE\",\r\n    \"english_name\" : \"FR UPDATED\",\r\n    \"position\" : 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/sports/FOOT",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"sports",
+								"FOOT"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
