@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('local_name');
             $table->string('english_name');
             $table->string('icon')->nullable();
-            $table->string('status')->default('ACTIVE')->comment('ACTIVE', 'INACTIVE');
+            $table->string('status')->default('ACTIVE')->comment('ACTIVE / INACTIVE');
             $table->tinyInteger('position');
             $table->timestamps();
         });
