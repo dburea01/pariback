@@ -5,6 +5,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\Sport;
 use Spatie\QueryBuilder\AllowedSort;
 use StringLengthSort;
+use Illuminate\Support\Str;
 
 class SportRepository
 {
@@ -17,7 +18,7 @@ class SportRepository
         return $sports;
     }
 
-    public function store(array $data): Sport
+    public function store(array $data, string $imageName): Sport
     {
         $sport = new Sport();
         $sport->fill($data);
@@ -26,14 +27,15 @@ class SportRepository
             'fr' => $data['french_name']
         ];
         $sport->status = 'INACTIVE';
+        $sport->icon = $imageName;
         $sport->save();
 
         return $sport;
     }
 
-    public function update(Sport $sport, array $data): Sport
+    public function update(Sport $sport, array $data, string $imageName): Sport
     {
-        $sport->fill($data);
+        $sport->icon = $imageName === '' ? null : $imageName;
 
         if (array_key_exists('french_name', $data)) {
             $sport->setTranslation('name', 'fr', $data['french_name']);

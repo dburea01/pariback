@@ -27,7 +27,8 @@ class StoreSportRequest extends FormRequest
             'id' => 'required|max:10|unique:sports,id',
             'english_name' => 'required',
             'french_name' => 'required',
-            'position' => 'required|int|gt:0'
+            'position' => 'required|int|gt:0',
+            'icon' => 'required|mimes:jpg,bmp,png|max:500'
         ];
     }
 }

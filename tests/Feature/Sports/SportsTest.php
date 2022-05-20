@@ -1,10 +1,11 @@
 <?php
 namespace Tests\Feature;
 
-use App\Models\Country;
 use App\Models\Sport;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class SportsTest extends TestCase
@@ -40,6 +41,8 @@ class SportsTest extends TestCase
 
     public function test_a_post_of_sport_with_correct_body_must_create_the_sport(): void
     {
+        Storage::fake('local');
+
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
@@ -47,7 +50,8 @@ class SportsTest extends TestCase
             'id' => 'SPORT',
             'english_name' => 'foot test en',
             'french_name' => 'foot test fr',
-            'position' => '123'
+            'position' => '123',
+            'icon' => UploadedFile::fake()->image('fake_image.jpg')
         ];
 
         $response = $this->postJson($this->getEndPoint() . 'sports', $sport);
@@ -61,7 +65,7 @@ class SportsTest extends TestCase
         $this->assertEquals($sport['english_name'], $sportCreated->getTranslation('name', 'en'));
         $this->assertEquals($sport['french_name'], $sportCreated->getTranslation('name', 'fr'));
         $this->assertEquals($sport['position'], $sportCreated->position);
-        $this->assertNull($sportCreated->icon);
+        $this->assertEquals('sport_SPORT.jpg', $sportCreated->icon);
         $this->assertEquals('INACTIVE', $sportCreated->status);
     }
 
@@ -96,6 +100,8 @@ class SportsTest extends TestCase
 
     public function test_a_put_of_sport_with_correct_body_must_update_the_sport(): void
     {
+        Storage::fake('local');
+
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
@@ -103,7 +109,8 @@ class SportsTest extends TestCase
             'id' => 'FOOT',
             'english_name' => 'foot test en',
             'french_name' => 'foot test fr',
-            'position' => '123'
+            'position' => '123',
+            'icon' => UploadedFile::fake()->image('fake_sport.jpg')
         ];
         $response = $this->putJson($this->getEndPoint() . 'sports/FOOT', $sport);
         $response->assertStatus(200)

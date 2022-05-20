@@ -1,7 +1,6 @@
 <?php
 namespace Tests\Feature;
 
-use App\Models\Bet;
 use App\Models\Country;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -25,7 +25,8 @@ class UpdateSportRequest extends FormRequest
     {
         return [
             'position' => 'int|gt:0',
-            'status' => 'in:ACTIVE,INACTIVE'
+            'status' => 'in:ACTIVE,INACTIVE',
+            'icon' => 'required|mimes:jpg,bmp,png|max:500'
         ];
     }
 }

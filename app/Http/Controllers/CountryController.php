@@ -6,16 +6,19 @@ use App\Http\Requests\StoreCountryRequest;
 use App\Http\Requests\UpdateCountryRequest;
 use App\Http\Resources\CountryResource;
 use App\Repositories\CountryRepository;
+use App\Services\ImageService;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CountryController extends Controller
 {
     private $countryRepository;
+    private $imageService;
 
-    public function __construct(CountryRepository $countryRepository)
+    public function __construct(CountryRepository $countryRepository, ImageService $imageService)
     {
         $this->countryRepository = $countryRepository;
+        $this->imageService = $imageService;
     }
 
     public function index()
@@ -33,11 +36,13 @@ class CountryController extends Controller
     public function store(StoreCountryRequest $request)
     {
         try {
-            $path = $this->uploadImage($request->id, $request);
-            $country = $this->countryRepository->store($request->all(), $path);
+            $imageName = $this->imageName($request->id, $request->icon);
+            $this->imageService->uploadImage($imageName, $request->icon);
+            // $path = $this->uploadImage($request->id, $request);
+            $country = $this->countryRepository->store($request->all(), $imageName);
             return new CountryResource($country);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the country.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the country.']);
         }
     }
 
@@ -45,12 +50,13 @@ class CountryController extends Controller
     {
         try {
             if ($request->has('icon')) {
-                $path = $this->uploadImage($country->id, $request);
+                $imageName = $this->imageName($country->id, $request->icon);
+                $this->imageService->uploadImage($imageName, $request->icon);
             }
-            $countryUpdated = $this->countryRepository->update($country, $request->all(), $path);
+            $countryUpdated = $this->countryRepository->update($country, $request->all(), $imageName);
             return new CountryResource($countryUpdated);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to update the country.']);
+            return response()->json(['error' => 'Impossible to update the country.' . $th->getMessage()]);
         }
     }
 
@@ -59,6 +65,7 @@ class CountryController extends Controller
         $this->authorize('delete', $country);
 
         try {
+            $this->imageService->deleteImage($country->icon);
             $this->countryRepository->destroy($country);
             return response()->noContent();
         } catch (\Throwable $th) {
@@ -66,11 +73,8 @@ class CountryController extends Controller
         }
     }
 
-    public function uploadImage(string $countryId, $request)
+    public function imageName(string $countryId, $image)
     {
-        $name = 'flag_' . $countryId . '.' . $request->icon->getClientOriginalExtension();
-        // dd($request->icon);
-        Storage::disk('public')->putFileAs('/countries', $request->icon, $name);
-        return $name;
+        return 'flag_' . $countryId . '.' . $image->getClientOriginalExtension();
     }
 }
