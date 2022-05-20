@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\SportController;
+use App\Http\Controllers\CompetitionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,7 @@ Route::prefix('v1')->group(function () {
 
     Route::get('countries', [CountryController::class, 'index']);
     Route::apiResource('sports', SportController::class)->only(['index', 'show']);
+    Route::apiResource('competitions', CompetitionController::class)->only(['index', 'show'])->whereUuid('competition');
 });
 
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
@@ -33,4 +35,5 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('countries', CountryController::class)->except('index');
     Route::apiResource('sports', SportController::class)->only(['store', 'update', 'destroy']);
+    Route::apiResource('competitions', CompetitionController::class)->only(['store', 'update', 'destroy'])->whereUuid('competition');
 });
