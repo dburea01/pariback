@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Policies;
 
 use App\Models\Country;
@@ -14,16 +15,6 @@ class CountryPolicy
         if ($user->isAdmin()) {
             return true;
         }
-    }
-
-    public function viewAny(User $user)
-    {
-        //
-    }
-
-    public function view(User $user, Country $country)
-    {
-        //
     }
 
     public function create(User $user)

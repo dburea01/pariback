@@ -16,16 +16,6 @@ class CompetitionPolicy
         }
     }
 
-    public function viewAny(User $user)
-    {
-        // TODO
-    }
-
-    public function view(User $user)
-    {
-        // TODO
-    }
-
     public function create(User $user)
     {
         return $user->isAdmin();

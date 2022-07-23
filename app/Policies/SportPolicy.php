@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Policies;
 
 use App\Models\User;
@@ -13,16 +14,6 @@ class SportPolicy
         if ($user->isAdmin()) {
             return true;
         }
-    }
-
-    public function viewAny(User $user)
-    {
-        //
-    }
-
-    public function view(User $user)
-    {
-        //
     }
 
     public function create(User $user)
