@@ -1,21 +1,17 @@
 <?php
+
 namespace App\Repositories;
 
-use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\Sport;
-use Spatie\QueryBuilder\AllowedSort;
-use StringLengthSort;
-use Illuminate\Support\Str;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class SportRepository
 {
     public function index()
     {
-        $sports = QueryBuilder::for(Sport::class)
+        return QueryBuilder::for(Sport::class)
         ->defaultSort('position')
         ->get();
-
-        return $sports;
     }
 
     public function store(array $data, string $imageName): Sport
@@ -24,7 +20,7 @@ class SportRepository
         $sport->fill($data);
         $sport->name = [
             'en' => $data['english_name'],
-            'fr' => $data['french_name']
+            'fr' => $data['french_name'],
         ];
         $sport->status = 'INACTIVE';
         $sport->icon = $imageName;

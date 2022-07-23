@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCompetitionRequest;
-use App\Models\Sport;
 use App\Http\Requests\UpdateCompetitionRequest;
 use App\Http\Resources\CompetitionResource;
 use App\Http\Resources\SportResource;
@@ -36,10 +36,9 @@ class CompetitionController extends Controller
     public function store(StoreCompetitionRequest $request)
     {
         try {
-            // $imageName = $this->imageName($request->short_name, $request->icon);
-            
             $competition = $this->competitionRepository->store($request->all(), $imageName);
             $this->imageService->uploadImage($imageName, $request->icon);
+
             return new CompetitionResource($competition);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Impossible to create the competition.' . $th->getMessage()]);
@@ -56,9 +55,10 @@ class CompetitionController extends Controller
                 $imageName = '';
             }
             $competitionUpdated = $this->competitionRepository->update($competition, $request->all(), $imageName);
+
             return new SportResource($competitionUpdated);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to update the competition.']);
+            return response()->json(['error' => 'Impossible to update the competition.' . $th->getMessage()]);
         }
     }
 
@@ -69,6 +69,7 @@ class CompetitionController extends Controller
         try {
             $this->imageService->deleteImage($competition->icon);
             $this->competitionRepository->destroy($competition);
+
             return response()->noContent();
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Impossible to delete the competition.' . $th->getMessage()]);

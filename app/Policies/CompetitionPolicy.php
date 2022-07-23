@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Policies;
 
 use App\Models\User;
@@ -17,12 +18,12 @@ class CompetitionPolicy
 
     public function viewAny(User $user)
     {
-        //
+        // TODO
     }
 
     public function view(User $user)
     {
-        //
+        // TODO
     }
 
     public function create(User $user)

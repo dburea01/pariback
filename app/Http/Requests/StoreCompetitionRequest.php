@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -13,7 +14,7 @@ class StoreCompetitionRequest extends FormRequest
     public function authorize()
     {
         return true;
-        /// @todo : policies
+        // @todo : policies
     }
 
     /**
@@ -30,7 +31,7 @@ class StoreCompetitionRequest extends FormRequest
             'english_name' => 'required',
             'french_name' => 'required',
             'icon' => 'required|mimes:jpg,bmp,png|max:500',
-            'position' => 'required|int|gt:0'
+            'position' => 'required|int|gt:0',
         ];
     }
 }

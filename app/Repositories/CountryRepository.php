@@ -1,20 +1,18 @@
 <?php
+
 namespace App\Repositories;
 
-use Spatie\QueryBuilder\QueryBuilder;
 use App\Models\Country;
-use Illuminate\Support\Facades\Storage;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CountryRepository
 {
     public function index()
     {
-        $countries = QueryBuilder::for(Country::class)
+        return QueryBuilder::for(Country::class)
         ->allowedSorts('local_name', 'english_name', 'position')
         ->defaultSort('position')
         ->get();
-
-        return $countries;
     }
 
     public function store(array $data, string $icon): Country
