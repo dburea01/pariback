@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Models\Competition;
-use App\Models\Sport;
 use Illuminate\Support\Facades\Auth;
 
 class CompetitionRepository
@@ -18,19 +18,19 @@ class CompetitionRepository
         ) {
             $competitions->where('status', 'ACTIVE');
         }
+
         return $competitions->get();
     }
 
-    public function store(array $data, string $imageName): Competition
+    public function store(array $data): Competition
     {
         $competition = new Competition();
         $competition->fill($data);
         $competition->name = [
             'en' => $data['english_name'],
-            'fr' => $data['french_name']
+            'fr' => $data['french_name'],
         ];
         $competition->status = 'INACTIVE';
-        // $competition->icon = $imageName;
         $competition->save();
 
         return $competition;
