@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ResetPasswordRequest;
@@ -14,9 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Nette\Utils\Json;
 
 class AuthController extends Controller
 {
@@ -53,7 +52,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'token' => $user->createToken('authToken')->plainTextToken,
-                'user' => $user->only(['id', 'name'])
+                'user' => $user->only(['id', 'name']),
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -71,10 +70,11 @@ class AuthController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'status' => 'CREATED',
-                'token_validation_registration' => Str::random(20)
+                'token_validation_registration' => Str::random(20),
             ]);
 
             $user->notify(new SendEmailRegister());
+
             return new UserResource($user);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);
@@ -130,6 +130,7 @@ class AuthController extends Controller
             return response()->json(['message' => trans('auth.password-reset-ok')]);
         } catch (\Throwable $th) {
             DB::rollBack();
+
             return response()->json(['message' => trans('auth.password-reset-ko')]);
         }
     }
