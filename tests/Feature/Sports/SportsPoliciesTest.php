@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Feature;
 
 use App\Models\User;
@@ -12,13 +13,13 @@ class SportsPoliciesTest extends TestCase
 
     public function test_you_must_not_be_authenticated_to_see_the_sports(): void
     {
-        $response = $this->getJson($this->getEndPoint() . 'sports');
+        $response = $this->getJson($this->getEndPoint().'sports');
         $response->assertStatus(200);
     }
 
     public function test_you_must_not_be_authenticated_to_see_a_sport(): void
     {
-        $response = $this->getJson($this->getEndPoint() . 'sports/FOOT');
+        $response = $this->getJson($this->getEndPoint().'sports/FOOT');
         $response->assertStatus(200);
     }
 
@@ -27,25 +28,25 @@ class SportsPoliciesTest extends TestCase
         $userNotAdmin = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
         $this->actingAs($userNotAdmin);
 
-        $response = $this->postJson($this->getEndPoint() . 'sports');
+        $response = $this->postJson($this->getEndPoint().'sports');
         $response->assertStatus(403);
 
-        $response = $this->putJson($this->getEndPoint() . 'sports/FOOT');
+        $response = $this->putJson($this->getEndPoint().'sports/FOOT');
         $response->assertStatus(403);
 
-        $response = $this->deleteJson($this->getEndPoint() . 'sports/FOOT');
+        $response = $this->deleteJson($this->getEndPoint().'sports/FOOT');
         $response->assertStatus(403);
 
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->postJson($this->getEndPoint() . 'sports');
+        $response = $this->postJson($this->getEndPoint().'sports');
         $response->assertStatus(422);
 
-        $response = $this->getJson($this->getEndPoint() . 'sports/FOOT');
+        $response = $this->getJson($this->getEndPoint().'sports/FOOT');
         $response->assertStatus(200);
 
-        $response = $this->deleteJson($this->getEndPoint() . 'sports/FOOT');
+        $response = $this->deleteJson($this->getEndPoint().'sports/FOOT');
         $response->assertStatus(204);
     }
 }

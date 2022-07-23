@@ -19,6 +19,6 @@ return [
 
     'forgot-password' => 'You will receive an email with instructions to reset your password',
     'password-reset-ok' => 'The password has been modified.',
-    'password-reset-ko' => 'WARNING : The password has NOT been modified.'
+    'password-reset-ko' => 'WARNING : The password has NOT been modified.',
 
 ];

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -22,8 +23,8 @@ class CompetitionResource extends JsonResource
             'name' => $this->name,
             'position' => $this->position,
             'icon' => $this->icon,
-            'icon_url' => asset('storage/' . $this->icon),
-            'status' => $this->status
+            'icon_url' => asset('storage/'.$this->icon),
+            'status' => $this->status,
         ];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Feature;
 
 use App\Models\User;
@@ -13,7 +14,7 @@ class LoginTest extends TestCase
 
     public function test_login_without_body_must_return_an_error(): void
     {
-        $response = $this->postJson($this->getEndPoint() . 'login');
+        $response = $this->postJson($this->getEndPoint().'login');
 
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['email', 'password']);
@@ -21,9 +22,9 @@ class LoginTest extends TestCase
 
     public function test_login_with_unknown_couple_email_password_must_return_an_error(): void
     {
-        $response = $this->postJson($this->getEndPoint() . 'login', [
+        $response = $this->postJson($this->getEndPoint().'login', [
             'email' => 'email',
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         $response->assertStatus(403);
@@ -33,9 +34,9 @@ class LoginTest extends TestCase
     {
         $user = User::factory()->create(['status' => 'VALIDATED']);
 
-        $response = $this->postJson($this->getEndPoint() . 'login', [
+        $response = $this->postJson($this->getEndPoint().'login', [
             'email' => $user->email,
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         $response->assertStatus(403);
@@ -45,9 +46,9 @@ class LoginTest extends TestCase
     {
         $user = User::factory()->create(['status' => 'CREATED', 'password' => Hash::make('password')]);
 
-        $response = $this->postJson($this->getEndPoint() . 'login', [
+        $response = $this->postJson($this->getEndPoint().'login', [
             'email' => $user->email,
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         $response->assertStatus(403);
@@ -57,9 +58,9 @@ class LoginTest extends TestCase
     {
         $user = User::factory()->create(['status' => 'VALIDATED', 'password' => Hash::make('password')]);
 
-        $response = $this->postJson($this->getEndPoint() . 'login', [
+        $response = $this->postJson($this->getEndPoint().'login', [
             'email' => $user->email,
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         $response->assertStatus(200)
@@ -67,14 +68,14 @@ class LoginTest extends TestCase
             'token',
             'user' => [
                 'id',
-                'name'
-            ]
+                'name',
+            ],
         ]);
     }
 
     public function test_logout_without_token_bearer_must_return_an_error(): void
     {
-        $response = $this->postJson($this->getEndPoint() . 'logout');
+        $response = $this->postJson($this->getEndPoint().'logout');
 
         $response->assertStatus(401);
     }
@@ -83,9 +84,9 @@ class LoginTest extends TestCase
     {
         $user = User::factory()->create(['status' => 'VALIDATED', 'password' => Hash::make('password')]);
 
-        $response = $this->postJson($this->getEndPoint() . 'login', [
+        $response = $this->postJson($this->getEndPoint().'login', [
             'email' => $user->email,
-            'password' => 'password'
+            'password' => 'password',
         ]);
 
         $response->assertStatus(200)
@@ -93,17 +94,17 @@ class LoginTest extends TestCase
             'token',
             'user' => [
                 'id',
-                'name'
-            ]
+                'name',
+            ],
         ]);
 
         $token = json_decode($response->getContent(), true)['token'];
 
-        $response = $this->postJson($this->getEndPoint() . 'logout', [], $this->setAuthorizationHeader($token));
+        $response = $this->postJson($this->getEndPoint().'logout', [], $this->setAuthorizationHeader($token));
 
         $response->assertStatus(200);
         $response->assertExactJson([
-            'message' => 'User deconnected'
+            'message' => 'User deconnected',
         ]);
     }
 }

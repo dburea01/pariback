@@ -1,7 +1,7 @@
 <?php
+
 namespace App\Http\Requests;
 
-use App\Models\Competition;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -31,12 +31,12 @@ class UpdateCompetitionRequest extends FormRequest
             'short_name' => [
                 'required',
                 'max:20',
-                Rule::unique('competitions')->ignore($this->competition->id)
+                Rule::unique('competitions')->ignore($this->competition->id),
             ],
             'english_name' => 'required',
             'french_name' => 'required',
             'icon' => 'required|mimes:jpg,bmp,png|max:500',
-            'position' => 'required|int|gt:0'
+            'position' => 'required|int|gt:0',
         ];
     }
 }

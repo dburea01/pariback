@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use GuzzleHttp\Psr7\Request;
@@ -29,7 +30,7 @@ class StoreCountryRequest extends FormRequest
             'local_name' => 'required',
             'english_name' => 'required',
             'position' => 'required|int|gt:0',
-            'icon' => 'required|mimes:jpg,bmp,png|max:500'
+            'icon' => 'required|mimes:jpg,bmp,png|max:500',
         ];
     }
 }

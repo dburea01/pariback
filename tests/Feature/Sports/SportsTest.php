@@ -1,11 +1,12 @@
 <?php
+
 namespace Tests\Feature;
 
 use App\Models\Sport;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class SportsTest extends TestCase
@@ -18,7 +19,7 @@ class SportsTest extends TestCase
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->postJson($this->getEndPoint() . 'sports');
+        $response = $this->postJson($this->getEndPoint().'sports');
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['id', 'french_name', 'english_name', 'position']);
     }
@@ -32,9 +33,9 @@ class SportsTest extends TestCase
             'id' => 'FOOT',
             'english_name' => 'foot test en',
             'french_name' => 'foot test fr',
-            'position' => 'toto'
+            'position' => 'toto',
         ];
-        $response = $this->postJson($this->getEndPoint() . 'sports', $country);
+        $response = $this->postJson($this->getEndPoint().'sports', $country);
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['id', 'position']);
     }
@@ -51,10 +52,10 @@ class SportsTest extends TestCase
             'english_name' => 'foot test en',
             'french_name' => 'foot test fr',
             'position' => '123',
-            'icon' => UploadedFile::fake()->image('fake_image.jpg')
+            'icon' => UploadedFile::fake()->image('fake_image.jpg'),
         ];
 
-        $response = $this->postJson($this->getEndPoint() . 'sports', $sport);
+        $response = $this->postJson($this->getEndPoint().'sports', $sport);
         $response->assertStatus(201)
         ->assertJsonStructure($this->return_structure_sport());
 
@@ -78,10 +79,10 @@ class SportsTest extends TestCase
             'id' => 'FOOT',
             'english_name' => 'foot test en',
             'french_name' => 'foot test fr',
-            'position' => '123'
+            'position' => '123',
         ];
 
-        $response = $this->postJson($this->getEndPoint() . 'sports', $sport);
+        $response = $this->postJson($this->getEndPoint().'sports', $sport);
         $response->assertStatus(422);
     }
 
@@ -91,9 +92,9 @@ class SportsTest extends TestCase
         $this->actingAs($userAdmin);
 
         $sport = [
-            'position' => 'toto'
+            'position' => 'toto',
         ];
-        $response = $this->putJson($this->getEndPoint() . 'sports/FOOT', $sport);
+        $response = $this->putJson($this->getEndPoint().'sports/FOOT', $sport);
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['position']);
     }
@@ -110,9 +111,9 @@ class SportsTest extends TestCase
             'english_name' => 'foot test en',
             'french_name' => 'foot test fr',
             'position' => '123',
-            'icon' => UploadedFile::fake()->image('fake_sport.jpg')
+            'icon' => UploadedFile::fake()->image('fake_sport.jpg'),
         ];
-        $response = $this->putJson($this->getEndPoint() . 'sports/FOOT', $sport);
+        $response = $this->putJson($this->getEndPoint().'sports/FOOT', $sport);
         $response->assertStatus(200)
         ->assertJsonStructure($this->return_structure_sport());
     }
@@ -122,7 +123,7 @@ class SportsTest extends TestCase
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->deleteJson($this->getEndPoint() . 'sports/FOOT');
+        $response = $this->deleteJson($this->getEndPoint().'sports/FOOT');
         $response->assertStatus(204);
 
         $this->assertDatabaseMissing('sports', ['id' => 'FOOT']);
@@ -133,7 +134,7 @@ class SportsTest extends TestCase
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->getJson($this->getEndPoint() . 'sports/TOTO');
+        $response = $this->getJson($this->getEndPoint().'sports/TOTO');
         $response->assertStatus(404);
     }
 
@@ -145,8 +146,8 @@ class SportsTest extends TestCase
                 'name',
                 'icon',
                 'status',
-                'position'
-            ]
+                'position',
+            ],
         ];
     }
 }

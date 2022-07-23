@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,7 +23,7 @@ class User extends Authenticatable
         'password',
         'status',
         'token_validation_registration',
-        'email_verified_at'
+        'email_verified_at',
     ];
 
     public $incrementing = false;

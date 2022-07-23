@@ -18,5 +18,5 @@ return [
 
     'forgot-password' => 'Vous allez recevoir un email avec des instructions pour modifier votre mot de passe.',
     'password-reset-ok' => 'Le mot de passe a été modifié.',
-    'password-reset-ko' => 'ATTENTION : Le mot de passe n\'a pas été modifié.'
+    'password-reset-ko' => 'ATTENTION : Le mot de passe n\'a pas été modifié.',
 ];

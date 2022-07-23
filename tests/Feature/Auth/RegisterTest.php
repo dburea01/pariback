@@ -1,11 +1,12 @@
 <?php
+
 namespace Tests\Feature;
 
 use App\Models\User;
 use App\Notifications\SendEmailRegister;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Notification;
+use Tests\TestCase;
 
 class RegisterTest extends TestCase
 {
@@ -14,7 +15,7 @@ class RegisterTest extends TestCase
 
     public function test_register_an_user_without_body_must_return_an_error_with_the_list_of_errors(): void
     {
-        $response = $this->postJson($this->getEndPoint() . 'register');
+        $response = $this->postJson($this->getEndPoint().'register');
 
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['name', 'password', 'email']);
@@ -26,10 +27,10 @@ class RegisterTest extends TestCase
             'name' => '',
             'email' => 'email.email@email.com',
             'password' => 'password',
-            'password_confirmation' => 'password'
+            'password_confirmation' => 'password',
         ];
 
-        $response = $this->postJson($this->getEndPoint() . 'register', $data);
+        $response = $this->postJson($this->getEndPoint().'register', $data);
 
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['name']);
@@ -41,10 +42,10 @@ class RegisterTest extends TestCase
             'name' => 'name',
             'email' => 'wrongemail',
             'password' => 'password',
-            'password_confirmation' => 'password'
+            'password_confirmation' => 'password',
         ];
 
-        $response = $this->postJson($this->getEndPoint() . 'register', $data);
+        $response = $this->postJson($this->getEndPoint().'register', $data);
 
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['email']);
@@ -56,10 +57,10 @@ class RegisterTest extends TestCase
             'name' => 'name',
             'email' => 'an.email@email.com',
             'password' => 'password',
-            'password_confirmation' => 'passwordd'
+            'password_confirmation' => 'passwordd',
         ];
 
-        $response = $this->postJson($this->getEndPoint() . 'register', $data);
+        $response = $this->postJson($this->getEndPoint().'register', $data);
 
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['password']);
@@ -71,10 +72,10 @@ class RegisterTest extends TestCase
             'name' => 'name',
             'email' => 'another.email@email.com',
             'password' => 'pass',
-            'password_confirmation' => 'pass'
+            'password_confirmation' => 'pass',
         ];
 
-        $response = $this->postJson($this->getEndPoint() . 'register', $data);
+        $response = $this->postJson($this->getEndPoint().'register', $data);
 
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['password']);
@@ -88,10 +89,10 @@ class RegisterTest extends TestCase
             'name' => 'name',
             'email' => $user->email,
             'password' => 'password',
-            'password_confirmation' => 'password'
+            'password_confirmation' => 'password',
         ];
 
-        $response = $this->postJson($this->getEndPoint() . 'register', $data);
+        $response = $this->postJson($this->getEndPoint().'register', $data);
 
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['email']);
@@ -105,10 +106,10 @@ class RegisterTest extends TestCase
             'name' => 'name',
             'email' => 'encoreunautre.email@email.com',
             'password' => 'password',
-            'password_confirmation' => 'password'
+            'password_confirmation' => 'password',
         ];
 
-        $response = $this->postJson($this->getEndPoint() . 'register', $data);
+        $response = $this->postJson($this->getEndPoint().'register', $data);
 
         $response->assertStatus(201);
 

@@ -1,8 +1,8 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         User::factory()->create([
             'is_admin' => true,
-            'status' => 'VALIDATED'
+            'status' => 'VALIDATED',
         ]);
 
         // \App\Models\User::factory()->create([

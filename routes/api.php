@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\SportController;
-use App\Http\Controllers\CompetitionController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------

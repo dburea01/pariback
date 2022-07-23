@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
 class CountryResource extends JsonResource
 {
@@ -20,8 +20,8 @@ class CountryResource extends JsonResource
             'english_name' => $this->english_name,
             'position' => $this->position,
             'icon' => $this->icon,
-            'icon_url' => asset('storage/' . $this->icon),
-            'status' => $this->status
+            'icon_url' => asset('storage/'.$this->icon),
+            'status' => $this->status,
         ];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -33,8 +34,8 @@ class ResetPasswordRequest extends FormRequest
                 'required',
                 Rule::exists('password_resets')->where(function ($query) use ($email) {
                     return $query->where('email', $email);
-                })
-            ]
+                }),
+            ],
         ];
     }
 }

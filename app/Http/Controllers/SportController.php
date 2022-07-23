@@ -1,16 +1,18 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use App\Models\Sport;
 use App\Http\Requests\StoreSportRequest;
 use App\Http\Requests\UpdateSportRequest;
 use App\Http\Resources\SportResource;
+use App\Models\Sport;
 use App\Repositories\SportRepository;
 use App\Services\ImageService;
 
 class SportController extends Controller
 {
     private $sportRepository;
+
     private $imageService;
 
     public function __construct(SportRepository $sportRepository, ImageService $imageService)
@@ -37,9 +39,10 @@ class SportController extends Controller
             $imageName = $this->imageName($request->id, $request->icon);
             $this->imageService->uploadImage($imageName, $request->icon);
             $sport = $this->sportRepository->store($request->all(), $imageName);
+
             return new SportResource($sport);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the sport.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the sport.'.$th->getMessage()]);
         }
     }
 
@@ -53,9 +56,10 @@ class SportController extends Controller
                 $imageName = '';
             }
             $sportUpdated = $this->sportRepository->update($sport, $request->all(), $imageName);
+
             return new SportResource($sportUpdated);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to update the sport.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to update the sport.'.$th->getMessage()]);
         }
     }
 
@@ -66,6 +70,7 @@ class SportController extends Controller
         try {
             $this->imageService->deleteImage($sport->icon);
             $this->sportRepository->destroy($sport);
+
             return response()->noContent();
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Impossible to delete the sport.']);
@@ -74,6 +79,6 @@ class SportController extends Controller
 
     public function imageName(string $sportId, $image)
     {
-        return 'sport_' . $sportId . '.' . $image->getClientOriginalExtension();
+        return 'sport_'.$sportId.'.'.$image->getClientOriginalExtension();
     }
 }

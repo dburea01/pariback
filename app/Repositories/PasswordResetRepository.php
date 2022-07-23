@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\Models\PasswordReset;
@@ -8,7 +9,7 @@ use Illuminate\Support\Str;
 
 class PasswordResetRepository
 {
-    public function insert(string $email) : PasswordReset
+    public function insert(string $email): PasswordReset
     {
         $passwordReset = new PasswordReset();
         $passwordReset->email = $email;

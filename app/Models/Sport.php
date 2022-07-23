@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,6 +12,7 @@ class Sport extends Model
     use HasTranslations;
 
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     protected $fillable = [
@@ -18,10 +20,10 @@ class Sport extends Model
         'name',
         'icon',
         'status',
-        'position'
+        'position',
     ];
 
     public $translatable = [
-        'name'
+        'name',
     ];
 }

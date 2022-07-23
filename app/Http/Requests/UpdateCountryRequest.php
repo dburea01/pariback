@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -27,7 +28,7 @@ class UpdateCountryRequest extends FormRequest
             'local_name' => 'required',
             'english_name' => 'required',
             'position' => 'required|int|gt:0',
-            'icon' => 'mimes:jpg,bmp,png|max:500'
+            'icon' => 'mimes:jpg,bmp,png|max:500',
         ];
     }
 }

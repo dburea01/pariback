@@ -13,6 +13,7 @@ use App\Services\ImageService;
 class CompetitionController extends Controller
 {
     private $competitionRepository;
+
     private $imageService;
 
     public function __construct(CompetitionRepository $competitionRepository, ImageService $imageService)
@@ -41,7 +42,7 @@ class CompetitionController extends Controller
 
             return new CompetitionResource($competition);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the competition.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the competition.'.$th->getMessage()]);
         }
     }
 
@@ -58,7 +59,7 @@ class CompetitionController extends Controller
 
             return new SportResource($competitionUpdated);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to update the competition.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to update the competition.'.$th->getMessage()]);
         }
     }
 
@@ -72,12 +73,12 @@ class CompetitionController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the competition.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the competition.'.$th->getMessage()]);
         }
     }
 
     public function imageName(string $competition, $image)
     {
-        return 'competition_' . $competition . '.' . $image->getClientOriginalExtension();
+        return 'competition_'.$competition.'.'.$image->getClientOriginalExtension();
     }
 }

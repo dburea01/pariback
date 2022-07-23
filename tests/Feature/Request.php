@@ -1,7 +1,6 @@
 <?php
-namespace Tests\Feature;
 
-use App\Models\User;
+namespace Tests\Feature;
 
 trait Request
 {
@@ -17,7 +16,7 @@ trait Request
     {
         return [
             'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' . $token,
+            'Authorization' => 'Bearer '.$token,
         ];
     }
 
@@ -27,7 +26,7 @@ trait Request
     public function setAcceptLanguageHeader(string $language): array
     {
         return [
-            'Accept-Language' => $language
+            'Accept-Language' => $language,
         ];
     }
 }

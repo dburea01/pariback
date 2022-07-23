@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
 class AuthController extends Controller
 {
     private $userRepository;
+
     private $passwordResetRepository;
 
     public function __construct(
@@ -43,7 +44,7 @@ class AuthController extends Controller
             'status' => 'VALIDATED',
         ];
 
-        if (!Auth::attempt($credentials)) {
+        if (! Auth::attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
         try {

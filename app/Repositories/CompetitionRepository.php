@@ -12,9 +12,9 @@ class CompetitionRepository
         $competitions = Competition::with(['country', 'sport'])->orderBy('position');
 
         if (
-            !Auth::check()
+            ! Auth::check()
             ||
-            (Auth::check() && !Auth::user()->isAdmin())
+            (Auth::check() && ! Auth::user()->isAdmin())
         ) {
             $competitions->where('status', 'ACTIVE');
         }

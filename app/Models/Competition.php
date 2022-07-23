@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +13,7 @@ class Competition extends Model
     use HasUuid;
 
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     protected $fillable = [
@@ -22,11 +24,11 @@ class Competition extends Model
         'name',
         'icon',
         'status',
-        'position'
+        'position',
     ];
 
     public $translatable = [
-        'name'
+        'name',
     ];
 
     public function sport()

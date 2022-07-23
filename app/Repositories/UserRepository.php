@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\Models\User;
@@ -11,10 +12,8 @@ class UserRepository
     /**
      * [Description for insert]
      *
-     * @param array<string> $data
-     *
+     * @param  array<string>  $data
      * @return User
-     *
      */
     public function insert(array $data): User
     {
@@ -28,16 +27,14 @@ class UserRepository
     /**
      * [Description for validateRegistration]
      *
-     * @param User $user
-     *
+     * @param  User  $user
      * @return User
-     *
      */
     public function validateRegistration(User $user): User
     {
         $user->update([
             'status' => 'VALIDATED',
-            'email_verified_at' => now()
+            'email_verified_at' => now(),
         ]);
 
         return $user;
@@ -47,7 +44,7 @@ class UserRepository
     {
         User::where('email', $email)
         ->update([
-            'password' => Hash::make($password)
+            'password' => Hash::make($password),
         ]);
     }
 }

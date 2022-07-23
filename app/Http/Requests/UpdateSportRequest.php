@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,7 +27,7 @@ class UpdateSportRequest extends FormRequest
         return [
             'position' => 'int|gt:0',
             'status' => 'in:ACTIVE,INACTIVE',
-            'icon' => 'required|mimes:jpg,bmp,png|max:500'
+            'icon' => 'required|mimes:jpg,bmp,png|max:500',
         ];
     }
 }

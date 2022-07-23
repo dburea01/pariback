@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Feature;
 
 use App\Models\Country;
@@ -18,7 +19,7 @@ class CountriesTest extends TestCase
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->postJson($this->getEndPoint() . 'countries');
+        $response = $this->postJson($this->getEndPoint().'countries');
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['id', 'local_name', 'english_name', 'position']);
     }
@@ -32,9 +33,9 @@ class CountriesTest extends TestCase
             'id' => 'TOTO',
             'local_name' => 'test',
             'english_name' => 'test',
-            'position' => 'toto'
+            'position' => 'toto',
         ];
-        $response = $this->postJson($this->getEndPoint() . 'countries', $country);
+        $response = $this->postJson($this->getEndPoint().'countries', $country);
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['id', 'position']);
     }
@@ -51,10 +52,10 @@ class CountriesTest extends TestCase
             'local_name' => 'Espania',
             'english_name' => 'Spain',
             'position' => '10',
-            'icon' => UploadedFile::fake()->image('fake_image.jpg')
+            'icon' => UploadedFile::fake()->image('fake_image.jpg'),
         ];
 
-        $response = $this->postJson($this->getEndPoint() . 'countries', $country);
+        $response = $this->postJson($this->getEndPoint().'countries', $country);
         $response->assertStatus(201)
         ->assertJsonStructure($this->return_structure_country());
 
@@ -78,10 +79,10 @@ class CountriesTest extends TestCase
             'id' => 'FR',
             'local_name' => 'France',
             'english_name' => 'France',
-            'position' => '10'
+            'position' => '10',
         ];
 
-        $response = $this->postJson($this->getEndPoint() . 'countries', $country);
+        $response = $this->postJson($this->getEndPoint().'countries', $country);
         $response->assertStatus(422);
     }
 
@@ -92,9 +93,9 @@ class CountriesTest extends TestCase
 
         $country = [
             'local_name' => 'fr modif',
-            'position' => 'toto'
+            'position' => 'toto',
         ];
-        $response = $this->putJson($this->getEndPoint() . 'countries/FR', $country);
+        $response = $this->putJson($this->getEndPoint().'countries/FR', $country);
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['position']);
     }
@@ -107,9 +108,9 @@ class CountriesTest extends TestCase
         $country = [
             'local_name' => 'fr name modifié',
             'english_name' => 'english name modified',
-            'position' => '123'
+            'position' => '123',
         ];
-        $response = $this->putJson($this->getEndPoint() . 'countries/FR', $country);
+        $response = $this->putJson($this->getEndPoint().'countries/FR', $country);
         $response->assertStatus(200);
 
         //@todo : test with image uopdated
@@ -121,7 +122,7 @@ class CountriesTest extends TestCase
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->deleteJson($this->getEndPoint() . 'countries/FR');
+        $response = $this->deleteJson($this->getEndPoint().'countries/FR');
         $response->assertStatus(204);
 
         $this->assertDatabaseMissing('countries', ['id' => 'FR']);
@@ -132,7 +133,7 @@ class CountriesTest extends TestCase
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->deleteJson($this->getEndPoint() . 'countries/TOTO');
+        $response = $this->deleteJson($this->getEndPoint().'countries/TOTO');
         $response->assertStatus(404);
     }
 
@@ -146,8 +147,8 @@ class CountriesTest extends TestCase
                 'icon',
                 'icon_url',
                 'status',
-                'position'
-            ]
+                'position',
+            ],
         ];
     }
 }

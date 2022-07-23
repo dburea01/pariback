@@ -5,7 +5,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -37,11 +38,11 @@ return new class extends Migration {
                 'short_name' => 'FRANCE-FOOT-L1',
                 'name' => [
                     'en' => 'French football championship - league 1',
-                    'fr' => 'Championnat de France de football - Ligue 1'
+                    'fr' => 'Championnat de France de football - Ligue 1',
                 ],
                 'icon' => 'competition_L1',
                 'status' => 'ACTIVE',
-                'position' => 10
+                'position' => 10,
             ],
             [
                 'country_id' => 'FR',
@@ -49,11 +50,11 @@ return new class extends Migration {
                 'short_name' => 'FRANCE-FOOT-L2',
                 'name' => [
                     'en' => 'French football championship - league 2',
-                    'fr' => 'Championnat de France de football - Ligue 2'
+                    'fr' => 'Championnat de France de football - Ligue 2',
                 ],
                 'icon' => 'competition_L2',
                 'status' => 'ACTIVE',
-                'position' => 20
+                'position' => 20,
             ],
         ];
 

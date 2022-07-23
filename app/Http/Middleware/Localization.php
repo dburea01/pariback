@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -25,6 +26,7 @@ class Localization
              */
             App::setLocale($request->header('Accept-Language'));
         }
+
         return $next($request);
     }
 }

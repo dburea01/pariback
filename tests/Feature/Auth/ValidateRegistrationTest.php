@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Feature;
 
 use App\Models\User;
@@ -12,7 +13,7 @@ class ValidateRegistrationTest extends TestCase
 
     public function test_validate_a_registration_without_body_must_return_an_error(): void
     {
-        $response = $this->postJson($this->getEndPoint() . 'validate-registration');
+        $response = $this->postJson($this->getEndPoint().'validate-registration');
 
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['email', 'token_validation_registration']);
@@ -22,9 +23,9 @@ class ValidateRegistrationTest extends TestCase
     {
         $user = User::factory()->create(['status' => 'CREATED']);
 
-        $response = $this->postJson($this->getEndPoint() . 'validate-registration', [
+        $response = $this->postJson($this->getEndPoint().'validate-registration', [
             'email' => $user->email,
-            'token_validation_registration' => 'azerty'
+            'token_validation_registration' => 'azerty',
         ]);
 
         $response->assertStatus(422)
@@ -38,9 +39,9 @@ class ValidateRegistrationTest extends TestCase
     {
         $user = User::factory()->create(['status' => 'CREATED']);
 
-        $response = $this->postJson($this->getEndPoint() . 'validate-registration', [
+        $response = $this->postJson($this->getEndPoint().'validate-registration', [
             'email' => $user->email,
-            'token_validation_registration' => $user->token_validation_registration
+            'token_validation_registration' => $user->token_validation_registration,
         ]);
 
         $response->assertStatus(200);

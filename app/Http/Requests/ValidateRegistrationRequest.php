@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use App\Models\User;
@@ -33,8 +34,8 @@ class ValidateRegistrationRequest extends FormRequest
                 'required',
                 Rule::exists('users')->where(function ($query) use ($email) {
                     return $query->where('email', $email);
-                })
-            ]
+                }),
+            ],
         ];
     }
 }
