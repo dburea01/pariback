@@ -28,7 +28,7 @@ class UpdateCountryRequest extends FormRequest
             'icon' => [
                 'mimes:jpg,bmp,png',
                 'max:500',
-                Rule::dimensions()->maxWidth(100)->maxHeight(100)->ratio(1 / 1),
+                Rule::dimensions()->maxWidth(100)->maxHeight(100)->ratio(1),
             ]
         ];
     }
