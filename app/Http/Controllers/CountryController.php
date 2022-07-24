@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCountryRequest;
@@ -42,7 +41,7 @@ class CountryController extends Controller
 
             return new CountryResource($country);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the country.'.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the country.' . $th->getMessage()]);
         }
     }
 
@@ -51,13 +50,17 @@ class CountryController extends Controller
         try {
             if ($request->has('icon')) {
                 $imageName = $this->imageName($country->id, $request->icon);
+                $this->imageService->deleteImage($country->icon);
                 $this->imageService->uploadImage($imageName, $request->icon);
+            } else {
+                $imageName = $country->icon;
             }
+
             $countryUpdated = $this->countryRepository->update($country, $request->all(), $imageName);
 
             return new CountryResource($countryUpdated);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to update the country.'.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to update the country.' . $th->getMessage()]);
         }
     }
 
@@ -71,12 +74,12 @@ class CountryController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the country.'.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the country.' . $th->getMessage()]);
         }
     }
 
     public function imageName(string $countryId, $image)
     {
-        return 'flag_'.$countryId.'.'.$image->getClientOriginalExtension();
+        return 'country_' . strtoupper($countryId) . '.' . $image->getClientOriginalExtension();
     }
 }

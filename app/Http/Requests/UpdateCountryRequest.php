@@ -1,9 +1,9 @@
 <?php
-
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class UpdateCountryRequest extends FormRequest
 {
@@ -25,10 +25,11 @@ class UpdateCountryRequest extends FormRequest
     public function rules()
     {
         return [
-            'local_name' => 'required',
-            'english_name' => 'required',
-            'position' => 'required|int|gt:0',
-            'icon' => 'mimes:jpg,bmp,png|max:500',
+            'icon' => [
+                'mimes:jpg,bmp,png',
+                'max:500',
+                Rule::dimensions()->maxWidth(100)->maxHeight(100)->ratio(1 / 1),
+            ]
         ];
     }
 }
