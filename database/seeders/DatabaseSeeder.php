@@ -18,10 +18,5 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
             'status' => 'VALIDATED',
         ]);
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }
