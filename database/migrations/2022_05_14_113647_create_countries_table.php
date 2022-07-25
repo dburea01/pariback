@@ -16,8 +16,7 @@ return new class extends Migration
     {
         Schema::create('countries', function (Blueprint $table) {
             $table->string('id', 2)->primary();
-            $table->string('local_name');
-            $table->string('english_name');
+            $table->json('name');
             $table->string('icon')->nullable();
             $table->string('status')->default('ACTIVE')->comment('ACTIVE / INACTIVE');
             $table->tinyInteger('position');
@@ -27,17 +26,21 @@ return new class extends Migration
         $countries = [
             [
                 'id' => 'FR',
-                'local_name' => 'France',
-                'english_name' => 'France',
-                'icon' => 'flag_fr',
+                'name' => [
+                    'en' => 'France',
+                    'fr' => 'La France',
+                ],
+                'icon' => 'country_fr.png',
                 'status' => 'ACTIVE',
                 'position' => 10,
             ],
             [
                 'id' => 'IT',
-                'local_name' => 'Italia',
-                'english_name' => 'Italy',
-                'icon' => 'flag_it',
+                'name' => [
+                    'en' => 'Italy',
+                    'fr' => 'Italie',
+                ],
+                'icon' => 'country_it.png',
                 'status' => 'ACTIVE',
                 'position' => 20,
             ],

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCountryRequest;
@@ -41,7 +42,7 @@ class CountryController extends Controller
 
             return new CountryResource($country);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the country.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the country.'.$th->getMessage()]);
         }
     }
 
@@ -60,7 +61,7 @@ class CountryController extends Controller
 
             return new CountryResource($countryUpdated);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to update the country.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to update the country.'.$th->getMessage()]);
         }
     }
 
@@ -74,12 +75,12 @@ class CountryController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the country.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the country.'.$th->getMessage()]);
         }
     }
 
     public function imageName(string $countryId, $image)
     {
-        return 'country_' . strtoupper($countryId) . '.' . $image->getClientOriginalExtension();
+        return 'country_'.strtoupper($countryId).'.'.$image->getClientOriginalExtension();
     }
 }

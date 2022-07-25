@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class StoreCompetitionRequest extends FormRequest
 {
@@ -13,8 +15,7 @@ class StoreCompetitionRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
-        // @todo : policies
+        return Auth::user()->isAdmin();
     }
 
     /**
@@ -30,7 +31,12 @@ class StoreCompetitionRequest extends FormRequest
             'short_name' => 'required|max:20|unique:competitions,short_name',
             'english_name' => 'required',
             'french_name' => 'required',
-            'icon' => 'required|mimes:jpg,bmp,png|max:500',
+            'icon' => [
+                'required',
+                'mimes:jpg,bmp,png',
+                'max:500',
+                Rule::dimensions()->maxWidth(100)->maxHeight(100),
+            ],
             'position' => 'required|int|gt:0',
         ];
     }

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class StoreSportRequest extends FormRequest
 {
@@ -29,7 +30,12 @@ class StoreSportRequest extends FormRequest
             'english_name' => 'required',
             'french_name' => 'required',
             'position' => 'required|int|gt:0',
-            'icon' => 'required|mimes:jpg,bmp,png|max:500',
+            'icon' => [
+                'required',
+                'mimes:jpg,bmp,png',
+                'max:500',
+                Rule::dimensions()->maxWidth(100)->maxHeight(100),
+            ],
         ];
     }
 }

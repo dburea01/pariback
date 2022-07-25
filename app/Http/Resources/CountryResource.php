@@ -16,8 +16,7 @@ class CountryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'local_name' => $this->local_name,
-            'english_name' => $this->english_name,
+            'name' => $this->name,
             'position' => $this->position,
             'icon' => $this->icon,
             'icon_url' => asset('storage/'.$this->icon),

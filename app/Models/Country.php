@@ -1,12 +1,15 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Country extends Model
 {
     use HasFactory;
+    use HasTranslations;
 
     public $table = 'countries';
 
@@ -16,10 +19,13 @@ class Country extends Model
 
     protected $fillable = [
         'id',
-        'local_name',
-        'english_name',
+        'name',
         'icon',
         'status',
         'position',
+    ];
+
+    public $translatable = [
+        'name',
     ];
 }

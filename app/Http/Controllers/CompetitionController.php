@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCompetitionRequest;
 use App\Http\Requests\UpdateCompetitionRequest;
 use App\Http\Resources\CompetitionResource;
-use App\Http\Resources\SportResource;
 use App\Models\Competition;
 use App\Repositories\CompetitionRepository;
 use App\Services\ImageService;
@@ -37,8 +36,9 @@ class CompetitionController extends Controller
     public function store(StoreCompetitionRequest $request)
     {
         try {
-            $competition = $this->competitionRepository->store($request->all(), $imageName);
+            $imageName = $this->imageName($request->short_name, $request->icon);
             $this->imageService->uploadImage($imageName, $request->icon);
+            $competition = $this->competitionRepository->store($request->all(), $imageName);
 
             return new CompetitionResource($competition);
         } catch (\Throwable $th) {
@@ -50,14 +50,16 @@ class CompetitionController extends Controller
     {
         try {
             if ($request->has('icon')) {
-                $imageName = $this->imageName($competition->id, $request->icon);
+                $imageName = $this->imageName($competition->short_name, $request->icon);
+                $this->imageService->deleteImage($competition->icon);
                 $this->imageService->uploadImage($imageName, $request->icon);
             } else {
-                $imageName = '';
+                $imageName = $competition->icon;
             }
+
             $competitionUpdated = $this->competitionRepository->update($competition, $request->all(), $imageName);
 
-            return new SportResource($competitionUpdated);
+            return new CompetitionResource($competitionUpdated);
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Impossible to update the competition.'.$th->getMessage()]);
         }

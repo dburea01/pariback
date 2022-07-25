@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -29,15 +30,15 @@ class StoreCountryRequest extends FormRequest
                 // TODO :add regex validation for 2 characters , something like [A-Z]
                 'required', 'max:2', 'unique:countries,id',
             ],
-            'local_name' => 'required',
+            'french_name' => 'required',
             'english_name' => 'required',
             'position' => 'required|int|gt:0',
             'icon' => [
                 'required',
                 'mimes:jpg,bmp,png',
                 'max:500',
-                Rule::dimensions()->maxWidth(100)->maxHeight(100)->ratio(1),
-            ]
+                Rule::dimensions()->maxWidth(100)->maxHeight(100),
+            ],
         ];
     }
 }

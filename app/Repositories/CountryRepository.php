@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Models\Country;
@@ -9,7 +10,6 @@ class CountryRepository
     public function index()
     {
         return QueryBuilder::for(Country::class)
-        ->allowedSorts('local_name', 'english_name', 'position')
         ->defaultSort('position')
         ->get();
     }
@@ -18,6 +18,10 @@ class CountryRepository
     {
         $country = new Country();
         $country->fill($data);
+        $country->name = [
+            'en' => $data['english_name'],
+            'fr' => $data['french_name'],
+        ];
         $country->icon = $icon;
         $country->status = 'INACTIVE';
         $country->save();
@@ -29,6 +33,12 @@ class CountryRepository
     {
         $country->fill($data);
         $country->icon = $icon;
+        if (array_key_exists('french_name', $data)) {
+            $country->setTranslation('name', 'fr', $data['french_name']);
+        }
+        if (array_key_exists('english_name', $data)) {
+            $country->setTranslation('name', 'en', $data['english_name']);
+        }
         $country->save();
 
         return $country;

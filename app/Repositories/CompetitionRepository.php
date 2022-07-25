@@ -22,7 +22,7 @@ class CompetitionRepository
         return $competitions->get();
     }
 
-    public function store(array $data): Competition
+    public function store(array $data, string $icon): Competition
     {
         $competition = new Competition();
         $competition->fill($data);
@@ -31,6 +31,7 @@ class CompetitionRepository
             'fr' => $data['french_name'],
         ];
         $competition->status = 'INACTIVE';
+        $competition->icon = $icon;
         $competition->save();
 
         return $competition;
@@ -38,6 +39,7 @@ class CompetitionRepository
 
     public function update(Competition $competition, array $data, string $imageName): Competition
     {
+        $competition->fill($data);
         $competition->icon = $imageName === '' ? null : $imageName;
 
         if (array_key_exists('french_name', $data)) {

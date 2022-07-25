@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -28,8 +29,8 @@ class UpdateCountryRequest extends FormRequest
             'icon' => [
                 'mimes:jpg,bmp,png',
                 'max:500',
-                Rule::dimensions()->maxWidth(100)->maxHeight(100)->ratio(1),
-            ]
+                Rule::dimensions()->maxWidth(100)->maxHeight(100),
+            ],
         ];
     }
 }

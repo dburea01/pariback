@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class UpdateCompetitionRequest extends FormRequest
@@ -14,8 +15,7 @@ class UpdateCompetitionRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
-        // @todo : policies
+        return Auth::user()->isAdmin();
     }
 
     /**
@@ -26,17 +26,18 @@ class UpdateCompetitionRequest extends FormRequest
     public function rules()
     {
         return [
-            'country_id' => 'required|exists:countries,id',
-            'sport_id' => 'required|exists:sports,id',
+            'country_id' => 'exists:countries,id',
+            'sport_id' => 'exists:sports,id',
             'short_name' => [
-                'required',
                 'max:20',
                 Rule::unique('competitions')->ignore($this->competition->id),
             ],
-            'english_name' => 'required',
-            'french_name' => 'required',
-            'icon' => 'required|mimes:jpg,bmp,png|max:500',
-            'position' => 'required|int|gt:0',
+            'icon' => [
+                'mimes:jpg,bmp,png',
+                'max:500',
+                Rule::dimensions()->maxWidth(100)->maxHeight(100),
+            ],
+            'position' => 'int|gt:0',
         ];
     }
 }

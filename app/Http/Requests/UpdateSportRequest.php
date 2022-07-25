@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class UpdateSportRequest extends FormRequest
 {
@@ -27,7 +28,11 @@ class UpdateSportRequest extends FormRequest
         return [
             'position' => 'int|gt:0',
             'status' => 'in:ACTIVE,INACTIVE',
-            'icon' => 'required|mimes:jpg,bmp,png|max:500',
+            'icon' => [
+                'mimes:jpg,bmp,png',
+                'max:500',
+                Rule::dimensions()->maxWidth(100)->maxHeight(100),
+            ],
         ];
     }
 }

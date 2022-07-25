@@ -51,10 +51,12 @@ class SportController extends Controller
         try {
             if ($request->has('icon')) {
                 $imageName = $this->imageName($sport->id, $request->icon);
+                $this->imageService->deleteImage($sport->icon);
                 $this->imageService->uploadImage($imageName, $request->icon);
             } else {
-                $imageName = '';
+                $imageName = $sport->icon;
             }
+
             $sportUpdated = $this->sportRepository->update($sport, $request->all(), $imageName);
 
             return new SportResource($sportUpdated);

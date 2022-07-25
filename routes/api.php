@@ -32,7 +32,7 @@ Route::prefix('v1')->group(function () {
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
 
-    Route::apiResource('countries', CountryController::class)->except('index');
+    Route::apiResource('countries', CountryController::class)->only(['store', 'update', 'destroy']);
     Route::apiResource('sports', SportController::class)->only(['store', 'update', 'destroy']);
     Route::apiResource('competitions', CompetitionController::class)->only(['store', 'update', 'destroy'])->whereUuid('competition');
 });
