@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\User;
@@ -17,6 +16,11 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'is_admin' => true,
             'status' => 'VALIDATED',
+        ]);
+
+        $this->call([
+
+            TeamSeeder::class,
         ]);
     }
 }

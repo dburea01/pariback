@@ -1,8 +1,10 @@
 <?php
-
 namespace App\Http\Requests;
 
+use App\Models\Team;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class UpdateTeamRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class UpdateTeamRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::user()->isAdmin();
     }
 
     /**
@@ -24,7 +26,14 @@ class UpdateTeamRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'country_id' => 'exists:countries,id',
+            'sport_id' => 'exists:sports,id',
+            'status' => 'in:ACTIVE,INACTIVE',
+            'icon' => [
+                'mimes:jpg,bmp,png',
+                'max:500',
+                Rule::dimensions()->maxWidth(100)->maxHeight(100),
+            ],
         ];
     }
 }

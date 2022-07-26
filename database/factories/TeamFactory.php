@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -17,7 +16,11 @@ class TeamFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'short_name' => strtoupper($this->faker->word()),
+            'name' => $this->faker->sentence(rand(2, 5)),
+            'city' => $this->faker->city(),
+            'status' => $this->faker->randomElement(['ACTIVE', 'INACTIVE']),
+            'icon' => 'icon.jpg'
         ];
     }
 }

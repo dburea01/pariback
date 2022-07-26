@@ -5,8 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -22,13 +21,15 @@ return new class extends Migration
             $table->string('name');
             $table->string('city');
             $table->string('icon');
-            $table->string('status')->comment('ACTIVE / INACTIVE');
+            $table->string('status')->default('INACTIVE')->comment('ACTIVE / INACTIVE');
             $table->string('created_by');
             $table->string('updated_by')->nullable();
             $table->timestamps();
 
             $table->foreign('country_id')->references('id')->on('countries')->nullOnDelete();
             $table->foreign('sport_id')->references('id')->on('sports')->nullOnDelete();
+
+            $table->unique(['country_id', 'sport_id', 'short_name']);
         });
 
         $teams = [
