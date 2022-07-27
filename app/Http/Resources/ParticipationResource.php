@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -16,7 +17,7 @@ class ParticipationResource extends JsonResource
         return [
             'id' => $this->id,
             'team' => new TeamResource($this->team),
-            'competition' => new CompetitionResource($this->competition)
+            'competition' => new CompetitionResource($this->competition),
         ];
     }
 }

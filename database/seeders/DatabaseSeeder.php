@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\User;
@@ -20,7 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             TeamSeeder::class,
-            ParticipationSeeder::class
+            ParticipationSeeder::class,
         ]);
     }
 }

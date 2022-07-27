@@ -5,7 +5,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -45,7 +46,7 @@ return new class extends Migration {
                 'status' => 'ACTIVE',
                 'position' => 10,
                 'start_date' => '2022-08-15',
-                'end_date' => '2023-06-15'
+                'end_date' => '2023-06-15',
             ],
             [
                 'country_id' => 'FR',
@@ -59,7 +60,7 @@ return new class extends Migration {
                 'status' => 'ACTIVE',
                 'position' => 20,
                 'start_date' => '2022-08-15',
-                'end_date' => '2023-06-15'
+                'end_date' => '2023-06-15',
             ],
         ];
 

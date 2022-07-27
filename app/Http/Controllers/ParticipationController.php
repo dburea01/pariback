@@ -1,11 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreParticipationRequest;
 use App\Http\Resources\ParticipationResource;
-use App\Models\Competition;
 use App\Models\Participation;
-use App\Models\Team;
 use App\Repositories\ParticipationRepository;
 use App\Repositories\TeamRepository;
 use Illuminate\Http\Request;
@@ -38,7 +37,7 @@ class ParticipationController extends Controller
 
             return new ParticipationResource($participation);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the participation.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the participation.'.$th->getMessage()]);
         }
     }
 
@@ -49,7 +48,7 @@ class ParticipationController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the participation.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the participation.'.$th->getMessage()]);
         }
     }
 }

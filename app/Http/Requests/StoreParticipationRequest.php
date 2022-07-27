@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use App\Models\Competition;
@@ -43,13 +44,15 @@ class StoreParticipationRequest extends FormRequest
 
     public function withValidator($validator)
     {
-        $validator->after(function ($validator) {
-            $team = Team::find($this->team_id);
-            $competition = Competition::find($this->competition_id);
+        if ($this->team_id && $this->competition_id) {
+            $validator->after(function ($validator) {
+                $team = Team::find($this->team_id);
+                $competition = Competition::find($this->competition_id);
 
-            if ($team->sport_id <> $competition->sport_id) {
-                $validator->errors()->add('team_id', 'The team and competition must have the same sport.');
-            }
-        });
+                if ($team && $competition && $team->sport_id != $competition->sport_id) {
+                    $validator->errors()->add('team_id', 'The team and competition must have the same sport.');
+                }
+            });
+        }
     }
 }
