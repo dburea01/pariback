@@ -5,8 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -23,6 +22,8 @@ return new class extends Migration
             $table->string('icon');
             $table->tinyInteger('position');
             $table->string('status')->default('ACTIVE')->comment('ACTIVE / INACTIVE');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->string('created_by');
             $table->string('updated_by')->nullable();
             $table->timestamps();
@@ -43,6 +44,8 @@ return new class extends Migration
                 'icon' => 'competition_L1',
                 'status' => 'ACTIVE',
                 'position' => 10,
+                'start_date' => '2022-08-15',
+                'end_date' => '2023-06-15'
             ],
             [
                 'country_id' => 'FR',
@@ -55,6 +58,8 @@ return new class extends Migration
                 'icon' => 'competition_L2',
                 'status' => 'ACTIVE',
                 'position' => 20,
+                'start_date' => '2022-08-15',
+                'end_date' => '2023-06-15'
             ],
         ];
 

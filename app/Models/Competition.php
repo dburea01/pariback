@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,6 +24,8 @@ class Competition extends Model
         'icon',
         'status',
         'position',
+        'start_date',
+        'end_date'
     ];
 
     public $translatable = [

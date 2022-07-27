@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -38,6 +37,8 @@ class UpdateCompetitionRequest extends FormRequest
                 Rule::dimensions()->maxWidth(100)->maxHeight(100),
             ],
             'position' => 'int|gt:0',
+            'start_date' => 'date_format:Y-m-d',
+            'end_date' => 'date_format:Y-m-d|after:start_date',
         ];
     }
 }

@@ -365,14 +365,18 @@
 					"response": []
 				},
 				{
-					"name": "login KO",
+					"name": "login",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"tests[\"Status code is 401\"] = responseCode.code === 401;",
-									""
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+									"",
+									"tests[\"Token is generated\"] = jsonData.hasOwnProperty('token');"
 								],
 								"type": "text/javascript"
 							}
@@ -401,79 +405,13 @@
 							"formdata": [
 								{
 									"key": "email",
-									"value": "email",
+									"value": "ondricka.luz@example.net",
 									"type": "default"
-								},
-								{
-									"key": "password",
-									"value": "password",
-									"type": "default"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{path}}/login",
-							"host": [
-								"{{path}}"
-							],
-							"path": [
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "login OK",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"tests[\"Status code is 200\"] = responseCode.code === 200;",
-									"",
-									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"token\", jsonData.token);",
-									"",
-									"tests[\"Token is generated\"] = jsonData.hasOwnProperty('token');",
-									"tests[\"user is supplied\"] = jsonData.hasOwnProperty('user');"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "email",
-									"value": "hzieme@example.net",
-									"type": "text"
 								},
 								{
 									"key": "password",
 									"value": "azerty",
-									"type": "text"
+									"type": "default"
 								}
 							]
 						},
@@ -838,6 +776,11 @@
 								"key": "Accept",
 								"value": "application/json",
 								"type": "default"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "fr",
+								"type": "default"
 							}
 						],
 						"url": {
@@ -847,6 +790,24 @@
 							],
 							"path": [
 								"countries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "country",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/countries/FR",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"countries",
+								"FR"
 							]
 						}
 					},
@@ -930,21 +891,21 @@
 								{
 									"key": "icon",
 									"type": "file",
-									"src": "/C:/Users/Domi/Pictures/Screenpresso/2021-12-05_14h59_35.png"
+									"src": "/C:/Users/Domi/Downloads/icons8-allemagne-48.png"
 								},
 								{
 									"key": "id",
-									"value": "jj",
+									"value": "aa",
 									"type": "default"
 								},
 								{
-									"key": "local_name",
-									"value": "country with image",
+									"key": "french_name",
+									"value": "en français",
 									"type": "default"
 								},
 								{
 									"key": "english_name",
-									"value": "english name",
+									"value": "in english",
 									"type": "default"
 								},
 								{
@@ -972,13 +933,18 @@
 					"response": []
 				},
 				{
-					"name": "country OK",
+					"name": "put country OK",
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Accept",
 								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "fr",
 								"type": "default"
 							}
 						],
@@ -988,16 +954,16 @@
 								{
 									"key": "icon",
 									"type": "file",
-									"src": "/C:/Users/Domi/Pictures/Screenpresso/2021-11-28_09h59_57.png"
+									"src": "/C:/Users/Domi/Downloads/icons8-france-48.png"
 								},
 								{
-									"key": "local_name",
-									"value": "local name",
+									"key": "french_name",
+									"value": "local name modif zdefsdfzzz",
 									"type": "text"
 								},
 								{
 									"key": "english_name",
-									"value": "english name",
+									"value": "english name mofofof",
 									"type": "default"
 								},
 								{
@@ -1013,13 +979,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{path}}/countries/xx?_method=PUT",
+							"raw": "{{path}}/countries/FR?_method=PUT",
 							"host": [
 								"{{path}}"
 							],
 							"path": [
 								"countries",
-								"xx"
+								"FR"
 							],
 							"query": [
 								{
@@ -1144,8 +1110,34 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"id\" : \"FOOTrrr\",\r\n    \"english_name\" : \"footchl\",\r\n    \"french_name\" : \"foot français\",\r\n    \"position\" : 100\r\n}",
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "FOOT2",
+									"type": "default"
+								},
+								{
+									"key": "english_name",
+									"value": "foot2 english",
+									"type": "default"
+								},
+								{
+									"key": "french_name",
+									"value": "foot2 french",
+									"type": "default"
+								},
+								{
+									"key": "position",
+									"value": "10",
+									"type": "default"
+								},
+								{
+									"key": "icon",
+									"type": "file",
+									"src": "/C:/Users/Domi/Downloads/foot2 petit.jpg"
+								}
+							],
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1185,22 +1177,22 @@
 							}
 						],
 						"url": {
-							"raw": "{{path}}/sports/FOOTrrr",
+							"raw": "{{path}}/sports/FOOT2",
 							"host": [
 								"{{path}}"
 							],
 							"path": [
 								"sports",
-								"FOOTrrr"
+								"FOOT2"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "sport OK",
+					"name": "put sport OK",
 					"request": {
-						"method": "PUT",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Accept",
@@ -1214,8 +1206,24 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"french_name\" : \"FR MODIFIE  zezer\",\r\n    \"position\" : \"101\"\r\n}",
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "french_name",
+									"value": "french name modif",
+									"type": "default"
+								},
+								{
+									"key": "position",
+									"value": "20",
+									"type": "default"
+								},
+								{
+									"key": "icon",
+									"type": "file",
+									"src": "/C:/Users/Domi/Downloads/ballon foot FFF.jpg"
+								}
+							],
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1223,13 +1231,19 @@
 							}
 						},
 						"url": {
-							"raw": "{{path}}/sports/FOOTrrr",
+							"raw": "{{path}}/sports/FOOT2?_method=PUT",
 							"host": [
 								"{{path}}"
 							],
 							"path": [
 								"sports",
-								"FOOTrrr"
+								"FOOT2"
+							],
+							"query": [
+								{
+									"key": "_method",
+									"value": "PUT"
+								}
 							]
 						}
 					},
@@ -1256,13 +1270,612 @@
 							}
 						},
 						"url": {
-							"raw": "{{path}}/sports/FOOT",
+							"raw": "{{path}}/sports/FOOT2",
 							"host": [
 								"{{path}}"
 							],
 							"path": [
 								"sports",
-								"FOOT"
+								"FOOT2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Competitions",
+			"item": [
+				{
+					"name": "competitions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/competitions",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"competitions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "competition",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/competitions/dda1da21-a716-4891-ba46-a30d33d2e1e5",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"competitions",
+								"dda1da21-a716-4891-ba46-a30d33d2e1e5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "competition with errors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/competitions",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"competitions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "competition OK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "fr",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "country_id",
+									"value": "FR",
+									"type": "default"
+								},
+								{
+									"key": "sport_id",
+									"value": "FOOT",
+									"type": "default"
+								},
+								{
+									"key": "english_name",
+									"value": "english name compet",
+									"type": "default"
+								},
+								{
+									"key": "french_name",
+									"value": "french name compet",
+									"type": "default"
+								},
+								{
+									"key": "position",
+									"value": "10",
+									"type": "default"
+								},
+								{
+									"key": "icon",
+									"type": "file",
+									"src": "/C:/Users/Domi/Downloads/ligue1.png"
+								},
+								{
+									"key": "short_name",
+									"value": "FRANCE-FOOT-LIGUE1ll",
+									"type": "default"
+								},
+								{
+									"key": "start_date",
+									"value": "2022-07-27",
+									"type": "default"
+								},
+								{
+									"key": "end_date",
+									"value": "2022-07-31",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/competitions",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"competitions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT competition OK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "country_id",
+									"value": "FR",
+									"type": "default"
+								},
+								{
+									"key": "sport_id",
+									"value": "FOOT",
+									"type": "default"
+								},
+								{
+									"key": "english_name",
+									"value": "english name",
+									"type": "default"
+								},
+								{
+									"key": "french_name",
+									"value": "french name mosifié",
+									"type": "default"
+								},
+								{
+									"key": "position",
+									"value": "10",
+									"type": "default"
+								},
+								{
+									"key": "icon",
+									"type": "file",
+									"src": "/C:/Users/Domi/Downloads/ligue1.png"
+								},
+								{
+									"key": "short_name",
+									"value": "FRANCE-FOOT-LIGUE1ll",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/competitions/dda1da21-a716-4891-ba46-a30d33d2e1e5?_method=PUT",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"competitions",
+								"dda1da21-a716-4891-ba46-a30d33d2e1e5"
+							],
+							"query": [
+								{
+									"key": "_method",
+									"value": "PUT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "competition",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "FOOT2h",
+									"type": "default"
+								},
+								{
+									"key": "country_id",
+									"value": "FR",
+									"type": "default"
+								},
+								{
+									"key": "sport_id",
+									"value": "FOOT",
+									"type": "default"
+								},
+								{
+									"key": "english_name",
+									"value": "english name",
+									"type": "default"
+								},
+								{
+									"key": "french_name",
+									"value": "french name mosifié",
+									"type": "default"
+								},
+								{
+									"key": "position",
+									"value": "10",
+									"type": "default"
+								},
+								{
+									"key": "icon",
+									"type": "file",
+									"src": "/C:/Users/Domi/Downloads/ligue1_foot_FR.png"
+								},
+								{
+									"key": "short_name",
+									"value": "FRANCE-FOOT-LIGUE1ll",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/competitions/FOOT2h",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"competitions",
+								"FOOT2h"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "teams",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "fr",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/teams",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "teams filtered",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "fr",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/teams?name=psg",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"teams"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "psg"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "teams with errors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/teams",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "team OK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "country_id",
+									"value": "FR",
+									"type": "default"
+								},
+								{
+									"key": "sport_id",
+									"value": "FOOT",
+									"type": "default"
+								},
+								{
+									"key": "short_name",
+									"value": "LOSCsa",
+									"type": "default"
+								},
+								{
+									"key": "name",
+									"value": "Lille club",
+									"type": "default"
+								},
+								{
+									"key": "city",
+									"value": "Lille",
+									"type": "default"
+								},
+								{
+									"key": "status",
+									"value": "INACTIVE",
+									"type": "default"
+								},
+								{
+									"key": "icon",
+									"type": "file",
+									"src": "/C:/Users/Domi/Downloads/lille.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/teams",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "put team OK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "country_id",
+									"value": "FR",
+									"type": "default"
+								},
+								{
+									"key": "sport_id",
+									"value": "FOOT",
+									"type": "default"
+								},
+								{
+									"key": "short_name",
+									"value": "LOSCsazerzer",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "Lille club",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "city",
+									"value": "Lille",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "INACTIVE",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "icon",
+									"type": "file",
+									"src": "/C:/Users/Domi/Downloads/psg.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/teams/3b22dc06-aed4-4d24-8db3-c8e717b006ce?_method=PUT",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"teams",
+								"3b22dc06-aed4-4d24-8db3-c8e717b006ce"
+							],
+							"query": [
+								{
+									"key": "_method",
+									"value": "PUT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "team",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "en",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/teams/fc28f608-580c-4373-b374-dc471c8746c6",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"teams",
+								"fc28f608-580c-4373-b374-dc471c8746c6"
 							]
 						}
 					},
