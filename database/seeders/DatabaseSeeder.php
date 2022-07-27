@@ -19,9 +19,9 @@ class DatabaseSeeder extends Seeder
             'status' => 'VALIDATED',
         ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call([
+
+            TeamSeeder::class,
+        ]);
     }
 }

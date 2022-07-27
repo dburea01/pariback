@@ -37,9 +37,6 @@ class CountriesPoliciesTest extends TestCase
         $response = $this->postJson($this->getEndPoint().'countries');
         $response->assertStatus(422);
 
-        $response = $this->getJson($this->getEndPoint().'countries/FR');
-        $response->assertStatus(200);
-
         $response = $this->deleteJson($this->getEndPoint().'countries/FR');
         $response->assertStatus(204);
     }
