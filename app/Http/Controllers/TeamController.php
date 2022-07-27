@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTeamRequest;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 class TeamController extends Controller
 {
     private $teamRepository;
+
     private $imageService;
 
     public function __construct(TeamRepository $teamRepository, ImageService $imageService)
@@ -47,7 +49,7 @@ class TeamController extends Controller
 
             return new TeamResource($team);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the team.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the team.'.$th->getMessage()]);
         }
     }
 
@@ -84,7 +86,7 @@ class TeamController extends Controller
 
             return new TeamResource($teamUpdated);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to update the team.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to update the team.'.$th->getMessage()]);
         }
     }
 
@@ -104,12 +106,12 @@ class TeamController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the team.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the team.'.$th->getMessage()]);
         }
     }
 
     public function imageName(string $shortName, $image)
     {
-        return 'team_' . $shortName . '.' . $image->getClientOriginalExtension();
+        return 'team_'.$shortName.'.'.$image->getClientOriginalExtension();
     }
 }

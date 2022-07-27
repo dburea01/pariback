@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Models\Team;
-use Illuminate\Support\Facades\Auth;
 
 class TeamRepository
 {
@@ -12,9 +12,9 @@ class TeamRepository
 
         if (array_key_exists('name', $filters) && $filters['name'] !== '') {
             $teams->where(function ($query) use ($filters) {
-                $query->orWhere('name', 'ilike', '%' . $filters['name'] . '%')
-                ->orWhere('short_name', 'ilike', '%' . $filters['name'] . '%')
-                ->orWhere('city', 'ilike', '%' . $filters['name'] . '%');
+                $query->orWhere('name', 'ilike', '%'.$filters['name'].'%')
+                ->orWhere('short_name', 'ilike', '%'.$filters['name'].'%')
+                ->orWhere('city', 'ilike', '%'.$filters['name'].'%');
             });
         }
 

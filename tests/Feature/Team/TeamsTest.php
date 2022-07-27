@@ -1,7 +1,7 @@
 <?php
+
 namespace Tests\Feature;
 
-use App\Models\Competition;
 use App\Models\Country;
 use App\Models\Sport;
 use App\Models\Team;
@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use phpDocumentor\Reflection\Types\Void_;
 use Tests\TestCase;
 
 class TeamsTest extends TestCase
@@ -22,7 +21,7 @@ class TeamsTest extends TestCase
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->postJson($this->getEndPoint() . 'teams');
+        $response = $this->postJson($this->getEndPoint().'teams');
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['country_id', 'sport_id', 'short_name', 'name', 'city', 'icon']);
     }
@@ -42,14 +41,38 @@ class TeamsTest extends TestCase
             'city' => 'city',
             'icon' => UploadedFile::fake()->image('fake_image.jpg', 400, 400),
         ];
-        $response = $this->postJson($this->getEndPoint() . 'teams', $team);
+        $response = $this->postJson($this->getEndPoint().'teams', $team);
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['country_id', 'sport_id', 'icon']);
     }
 
     public function test_the_short_name_of_a_team_must_be_unique(): void
     {
-        // todo
+        Storage::fake('local');
+
+        $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
+        $this->actingAs($userAdmin);
+
+        $country = Country::factory()->create(['id' => 'CC', 'name' => 'country CC', 'position' => 10]);
+        $sport = Sport::factory()->create(['id' => 'GOLF']);
+        $team = Team::factory()->create([
+            'country_id' => $country->id,
+            'sport_id' => $sport->id,
+            'short_name' => 'LOSC',
+        ]);
+
+        $teamToCreate = [
+            'country_id' => $country->id,
+            'sport_id' => $sport->id,
+            'short_name' => 'LOSC',
+            'name' => 'team name',
+            'city' => 'City',
+            'icon' => UploadedFile::fake()->image('fake_image.jpg', 100, 100),
+        ];
+
+        $response = $this->postJson($this->getEndPoint().'teams', $teamToCreate);
+        $response->assertStatus(422)
+        ->assertJsonValidationErrors(['short_name']);
     }
 
     public function test_a_post_of_team_with_correct_body_must_create_the_team(): void
@@ -71,7 +94,7 @@ class TeamsTest extends TestCase
             'icon' => UploadedFile::fake()->image('fake_image.jpg', 100, 100),
         ];
 
-        $response = $this->postJson($this->getEndPoint() . 'teams', $team);
+        $response = $this->postJson($this->getEndPoint().'teams', $team);
         $response->assertStatus(201)
         ->assertJsonStructure($this->return_structure_team());
 
@@ -101,7 +124,7 @@ class TeamsTest extends TestCase
             'sport_id' => $sport->id,
         ]);
 
-        $response = $this->putJson($this->getEndPoint() . "teams/$team->id", ['city' => 'City updated']);
+        $response = $this->putJson($this->getEndPoint()."teams/$team->id", ['city' => 'City updated']);
         $response->assertStatus(200)
         ->assertJsonStructure($this->return_structure_team());
 
@@ -122,7 +145,7 @@ class TeamsTest extends TestCase
             'sport_id' => $sport->id,
         ]);
 
-        $response = $this->deleteJson($this->getEndPoint() . "teams/$team->id");
+        $response = $this->deleteJson($this->getEndPoint()."teams/$team->id");
         $response->assertStatus(204);
 
         $this->assertDatabaseMissing('teams', ['id' => $team->id]);
@@ -133,7 +156,7 @@ class TeamsTest extends TestCase
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->getJson($this->getEndPoint() . 'teams/TOTO');
+        $response = $this->getJson($this->getEndPoint().'teams/TOTO');
         $response->assertStatus(404);
     }
 
@@ -148,7 +171,7 @@ class TeamsTest extends TestCase
                 'icon_url',
                 'status',
                 'sport',
-                'country'
+                'country',
             ],
         ];
     }

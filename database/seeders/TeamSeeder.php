@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\Country;
@@ -23,7 +24,7 @@ class TeamSeeder extends Seeder
                 try {
                     Team::factory()->count(25)->create([
                         'country_id' => $country->id,
-                        'sport_id' => $sport->id
+                        'sport_id' => $sport->id,
                     ]);
                 } catch (\Throwable $th) {
                     echo 'doublon, skip';

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -19,7 +20,7 @@ class TeamResource extends JsonResource
             'name' => $this->name,
             'city' => $this->city,
             'status' => $this->status,
-            'icon_url' => asset('storage/' . $this->icon),
+            'icon_url' => asset('storage/'.$this->icon),
             'country' => new CountryResource($this->country),
             'sport' => new SportResource($this->sport),
         ];

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use App\Models\Team;
@@ -51,7 +52,7 @@ class StoreTeamRequest extends FormRequest
             ->count();
 
             if ($quantityTeam > 0) {
-                $validator->errors()->add('team', 'The short name already exists for this country and sport');
+                $validator->errors()->add('short_name', 'The short name already exists for this country and sport');
             }
         });
     }
