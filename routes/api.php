@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ParticipationController;
+use App\Http\Controllers\PhaseController;
 use App\Http\Controllers\SportController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,7 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('competitions', CompetitionController::class)->only(['index', 'show'])->whereUuid('competition');
     Route::apiResource('teams', TeamController::class)->only(['index', 'show'])->whereUuid('team');
     Route::apiResource('participations', ParticipationController::class)->only(['index', 'show'])->whereUuid('participation');
+    Route::apiResource('competitions/{competition}/phases', PhaseController::class)->only(['index', 'show'])->whereUuid(['competition', 'phase']);
 });
 
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
@@ -43,4 +45,5 @@ Route::prefix('v1')->middleware(['auth:sanctum', 'ensureUserIsAdmin'])->group(fu
     Route::apiResource('competitions', CompetitionController::class)->only(['store', 'update', 'destroy'])->whereUuid('competition');
     Route::apiResource('teams', TeamController::class)->only(['store', 'update', 'destroy'])->whereUuid('team');
     Route::apiResource('participations', ParticipationController::class)->only(['store', 'update', 'destroy'])->whereUuid('participation');
+    Route::apiResource('competitions/{competition}/phases', PhaseController::class)->only(['store', 'update', 'destroy'])->whereUuid(['competition', 'phase']);
 });

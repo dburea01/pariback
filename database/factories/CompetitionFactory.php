@@ -22,8 +22,8 @@ class CompetitionFactory extends Factory
             'icon' => 'competition_'.random_int(1, 10),
             'position' => random_int(1, 10),
             'status' => $this->faker->randomElement(['ACTIVE', 'INACTIVE']),
-            'start_date' => $this->faker->date(),
-            'end_date' => $this->faker->date(),
+            'start_date' => '2022-07-01',
+            'end_date' => '2022-07-31',
         ];
     }
 }
