@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Feature;
 
 use App\Models\Competition;
@@ -20,7 +21,7 @@ class CompetitionsTest extends TestCase
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->postJson($this->getEndPoint() . 'competitions');
+        $response = $this->postJson($this->getEndPoint().'competitions');
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['country_id', 'sport_id', 'short_name', 'english_name', 'french_name', 'position', 'start_date', 'end_date']);
     }
@@ -40,7 +41,7 @@ class CompetitionsTest extends TestCase
             'position' => 'RR',
             'icon' => UploadedFile::fake()->image('fake_image.jpg', 400, 400),
         ];
-        $response = $this->postJson($this->getEndPoint() . 'competitions', $competition);
+        $response = $this->postJson($this->getEndPoint().'competitions', $competition);
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['country_id', 'sport_id', 'position', 'icon', 'short_name', 'start_date', 'end_date']);
     }
@@ -61,13 +62,13 @@ class CompetitionsTest extends TestCase
             'english_name' => 'competition test en',
             'french_name' => 'competition test fr',
             'position' => '10',
-            'short_name' => $country->id . '_' . $sport->id,
+            'short_name' => $country->id.'_'.$sport->id,
             'icon' => UploadedFile::fake()->image('fake_image.jpg', 100, 100),
             'start_date' => '2022-07-27',
-            'end_date' => '2022-07-31'
+            'end_date' => '2022-07-31',
         ];
 
-        $response = $this->postJson($this->getEndPoint() . 'competitions', $competition);
+        $response = $this->postJson($this->getEndPoint().'competitions', $competition);
         $response->assertStatus(201)
         ->assertJsonStructure($this->return_structure_competition());
 
@@ -77,7 +78,7 @@ class CompetitionsTest extends TestCase
         $this->assertEquals($competition['english_name'], $competitionCreated->getTranslation('name', 'en'));
         $this->assertEquals($competition['french_name'], $competitionCreated->getTranslation('name', 'fr'));
         $this->assertEquals($competition['position'], $competitionCreated->position);
-        $this->assertEquals('competition_' . $competition['short_name'] . '.jpg', $competitionCreated->icon);
+        $this->assertEquals('competition_'.$competition['short_name'].'.jpg', $competitionCreated->icon);
         $this->assertEquals('INACTIVE', $competitionCreated->status);
         $this->assertEquals($competition['start_date'], $competitionCreated->start_date);
         $this->assertEquals($competition['end_date'], $competitionCreated->end_date);
@@ -98,7 +99,7 @@ class CompetitionsTest extends TestCase
             'sport_id' => $sport->id,
         ]);
 
-        $response = $this->putJson($this->getEndPoint() . "competitions/$competition->id", ['french_name' => 'toto']);
+        $response = $this->putJson($this->getEndPoint()."competitions/$competition->id", ['french_name' => 'toto']);
         $response->assertStatus(200)
         ->assertJsonStructure($this->return_structure_competition());
 
@@ -119,7 +120,7 @@ class CompetitionsTest extends TestCase
             'sport_id' => $sport->id,
         ]);
 
-        $response = $this->deleteJson($this->getEndPoint() . "competitions/$competition->id");
+        $response = $this->deleteJson($this->getEndPoint()."competitions/$competition->id");
         $response->assertStatus(204);
 
         $this->assertDatabaseMissing('competitions', ['id' => $competition->id]);
@@ -130,7 +131,7 @@ class CompetitionsTest extends TestCase
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->getJson($this->getEndPoint() . 'competitions/TOTO');
+        $response = $this->getJson($this->getEndPoint().'competitions/TOTO');
         $response->assertStatus(404);
     }
 
@@ -149,7 +150,7 @@ class CompetitionsTest extends TestCase
                 'icon_url',
                 'status',
                 'start_date',
-                'end_date'
+                'end_date',
             ],
         ];
     }

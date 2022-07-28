@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class StoreCompetitionRequest extends FormRequest
@@ -14,7 +14,7 @@ class StoreCompetitionRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->isAdmin();
+        return true;
     }
 
     /**

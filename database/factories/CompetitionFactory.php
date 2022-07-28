@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -18,7 +19,7 @@ class CompetitionFactory extends Factory
         return [
             'short_name' => $this->faker->word(),
             'name' => $this->faker->words(3, true),
-            'icon' => 'competition_' . random_int(1, 10),
+            'icon' => 'competition_'.random_int(1, 10),
             'position' => random_int(1, 10),
             'status' => $this->faker->randomElement(['ACTIVE', 'INACTIVE']),
             'start_date' => $this->faker->date(),
