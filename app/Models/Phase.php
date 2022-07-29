@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use DateTime;
@@ -30,20 +29,6 @@ class Phase extends Model
     public $translatable = [
         'name',
     ];
-
-    protected function getStartDateAttribute($value)
-    {
-        $date = new DateTime($value);
-
-        return $date->format('Y-m-d H:i');
-    }
-
-    protected function getEndDateAttribute($value)
-    {
-        $date = new DateTime($value);
-
-        return $date->format('Y-m-d H:i');
-    }
 
     public function competition()
     {
