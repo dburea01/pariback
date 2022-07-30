@@ -10,9 +10,6 @@ use App\Models\Sport;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class EventsTest extends TestCase
@@ -28,7 +25,7 @@ class EventsTest extends TestCase
         $events = Event::where('phase_id', $phase->id)->get();
 
         $response = $this->getJson($this->getEndPoint() . "phases/$phase->id/events");
-        $response->assertStatus(200)->dump();
+        $response->assertStatus(200);
 
         $eventsReturned = json_decode($response->getContent(), true)['data'];
 
@@ -36,139 +33,215 @@ class EventsTest extends TestCase
         $this->assertGreaterThan($eventsReturned[0]['date'], $eventsReturned[1]['date']);
     }
 
-    public function test_a_post_of_sport_without_body_must_return_an_error_with_the_list_of_errors(): void
+    public function test_a_post_of_event_without_body_must_return_an_error_with_the_list_of_errors(): void
     {
+        $this->seed();
+        $phase = Phase::first();
+
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->postJson($this->getEndPoint() . 'sports');
+        $response = $this->postJson($this->getEndPoint() . "phases/$phase->id/events");
         $response->assertStatus(422)
-        ->assertJsonValidationErrors(['id', 'french_name', 'english_name', 'position']);
+        ->assertJsonValidationErrors(['team1_id', 'team2_id', 'date', 'status']);
     }
 
-    public function test_a_post_of_sport_with_wrong_body_must_return_an_error(): void
+    public function test_a_post_of_event_with_wrong_body_must_return_an_error(): void
     {
+        $this->seed();
+        $phase = Phase::first();
+
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $country = [
-            'id' => 'FOOT',
-            'english_name' => 'foot test en',
-            'french_name' => 'foot test fr',
-            'position' => 'toto',
+        $event = [
+            'team1_id' => 'toto',
+            'team2_id' => 'titi',
+            'date' => '2022-07-1234',
+            'status' => 'tutu',
         ];
-        $response = $this->postJson($this->getEndPoint() . 'sports', $country);
+        $response = $this->postJson($this->getEndPoint() . "phases/$phase->id/events");
         $response->assertStatus(422)
-        ->assertJsonValidationErrors(['id', 'position']);
+        ->assertJsonValidationErrors(['team1_id', 'team2_id', 'date', 'status']);
     }
 
-    public function test_a_post_of_sport_with_correct_body_must_create_the_sport(): void
+    public function test_a_post_of_event_with_two_same_teams_must_return_an_error(): void
     {
-        Storage::fake('local');
+        $this->seed();
+        $phase = Phase::first();
 
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $sport = [
-            'id' => 'SPORT',
-            'english_name' => 'foot test en',
-            'french_name' => 'foot test fr',
-            'position' => '123',
-            'icon' => UploadedFile::fake()->image('fake_image.jpg'),
+        $participations = Participation::where('competition_id', $phase->competition_id)->get();
+
+        $event = [
+            'team1_id' => $participations[0]->team_id,
+            'team2_id' => $participations[0]->team_id,
+            'date' => '2022-07-12 21:00',
+            'status' => 'PLANNED',
         ];
 
-        $response = $this->postJson($this->getEndPoint() . 'sports', $sport);
+        $response = $this->postJson($this->getEndPoint() . "phases/$phase->id/events", $event);
+        $response->assertStatus(422)
+        ->assertJsonValidationErrors(['team2_id']);
+    }
+
+    public function test_a_post_of_event_with_a_team_already_present_must_return_an_error(): void
+    {
+        $this->seed();
+        $phase = Phase::first();
+        $competition = Competition::find($phase->competition_id);
+        $country = Country::find($competition->country_id);
+        $sport = Sport::find($competition->sport_id);
+
+        $team1 = Team::factory()->create([
+            'country_id' => $country->id,
+            'sport_id' => $sport->id,
+            'short_name' => 'TEAM1',
+        ]);
+        Participation::factory()->create(['competition_id' => $competition->id, 'team_id' => $team1->id]);
+
+        $team2 = Team::factory()->create([
+            'country_id' => $country->id,
+            'sport_id' => $sport->id,
+            'short_name' => 'TEAM2',
+        ]);
+        Participation::factory()->create(['competition_id' => $competition->id, 'team_id' => $team2->id]);
+
+        Event::factory()->create(['phase_id' => $phase->id, 'team1_id' => $team1->id, 'team2_id' => $team2->id]);
+
+        $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
+        $this->actingAs($userAdmin);
+
+        $event = [
+            'team1_id' => $team1->id,
+            'team2_id' => $team2->id,
+            'date' => '2022-07-12 21:00',
+            'status' => 'PLANNED',
+            'location' => 'location'
+        ];
+
+        $response = $this->postJson($this->getEndPoint() . "phases/$phase->id/events", $event);
+        $response->assertStatus(422)
+        ->assertJsonValidationErrors(['team1_id', 'team2_id']);
+    }
+
+    public function test_a_post_of_event_with_correct_body_must_create_the_event(): void
+    {
+        $this->seed();
+        $phase = Phase::first();
+        $competition = Competition::find($phase->competition_id);
+        $country = Country::find($competition->country_id);
+        $sport = Sport::find($competition->sport_id);
+
+        $team1 = Team::factory()->create([
+            'country_id' => $country->id,
+            'sport_id' => $sport->id,
+            'short_name' => 'TEAM1',
+        ]);
+
+        $team2 = Team::factory()->create([
+            'country_id' => $country->id,
+            'sport_id' => $sport->id,
+            'short_name' => 'TEAM2',
+        ]);
+
+        $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
+        $this->actingAs($userAdmin);
+
+        Participation::factory()->create(['competition_id' => $competition->id, 'team_id' => $team1->id]);
+        Participation::factory()->create(['competition_id' => $competition->id, 'team_id' => $team2->id]);
+
+        $event = [
+            'team1_id' => $team1->id,
+            'team2_id' => $team2->id,
+            'date' => '2022-07-12 21:00',
+            'status' => 'PLANNED',
+            'location' => 'location'
+        ];
+
+        $response = $this->postJson($this->getEndPoint() . "phases/$phase->id/events", $event);
         $response->assertStatus(201)
-        ->assertJsonStructure($this->return_structure_sport());
+        ->assertJsonStructure($this->return_structure_event());
 
-        //  $sportId = json_decode($response->getContent(), true)['data']['id'];
-        $sportCreated = Sport::find($sport['id']);
+        $eventId = json_decode($response->getContent(), true)['data']['id'];
+        $eventCreated = Event::find($eventId);
 
-        $this->assertEquals($sport['id'], $sportCreated->id);
-        $this->assertEquals($sport['english_name'], $sportCreated->getTranslation('name', 'en'));
-        $this->assertEquals($sport['french_name'], $sportCreated->getTranslation('name', 'fr'));
-        $this->assertEquals($sport['position'], $sportCreated->position);
-        $this->assertEquals('sport_SPORT.jpg', $sportCreated->icon);
-        $this->assertEquals('INACTIVE', $sportCreated->status);
+        $this->assertEquals($event['location'], $eventCreated->location);
+        $this->assertEquals($event['date'], $eventCreated->date);
+        $this->assertEquals($event['status'], $eventCreated->status);
+        $this->assertEquals($event['team1_id'], $eventCreated->team1->id);
+        $this->assertEquals($event['team2_id'], $eventCreated->team2->id);
     }
 
-    public function test_a_post_of_an_existing_sport_must_return_an_error(): void
+    public function test_a_put_of_event_with_correct_body_must_update_the_event(): void
     {
-        $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
-        $this->actingAs($userAdmin);
-
-        $sport = [
-            'id' => 'FOOT',
-            'english_name' => 'foot test en',
-            'french_name' => 'foot test fr',
-            'position' => '123',
-        ];
-
-        $response = $this->postJson($this->getEndPoint() . 'sports', $sport);
-        $response->assertStatus(422);
-    }
-
-    public function test_a_put_of_sport_with_wrong_body_must_return_an_error(): void
-    {
-        $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
-        $this->actingAs($userAdmin);
-
-        $sport = [
-            'position' => 'toto',
-        ];
-        $response = $this->putJson($this->getEndPoint() . 'sports/FOOT', $sport);
-        $response->assertStatus(422)
-        ->assertJsonValidationErrors(['position']);
-    }
-
-    public function test_a_put_of_sport_with_correct_body_must_update_the_sport(): void
-    {
-        Storage::fake('local');
+        $this->seed();
+        $phase = Phase::first();
+        $event = Event::where('phase_id', $phase->id)->first();
 
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $sport = [
-            'id' => 'FOOT',
-            'english_name' => 'foot test en',
-            'french_name' => 'foot test fr',
-            'position' => '123',
-            'icon' => UploadedFile::fake()->image('fake_sport.jpg'),
+        $eventToUpdate = [
+            'date' => '2022-07-12 21:00',
+            'status' => 'TERMINATED',
+            'location' => 'location modified',
+            'score_team1' => 3,
+            'score_team2' => 1
         ];
-        $response = $this->putJson($this->getEndPoint() . 'sports/FOOT', $sport);
+        $response = $this->putJson($this->getEndPoint() . "phases/$phase->id/events/$event->id", $eventToUpdate);
         $response->assertStatus(200)
-        ->assertJsonStructure($this->return_structure_sport());
+        ->assertJsonStructure($this->return_structure_event());
+
+        $eventId = json_decode($response->getContent(), true)['data']['id'];
+        $eventUpdated = Event::find($eventId);
+
+        $this->assertEquals($eventToUpdate['location'], $eventUpdated->location);
+        $this->assertEquals($eventToUpdate['date'], $eventUpdated->date);
+        $this->assertEquals($eventToUpdate['status'], $eventUpdated->status);
+        $this->assertEquals($eventToUpdate['score_team1'], $eventUpdated->score_team1);
+        $this->assertEquals($eventToUpdate['score_team2'], $eventUpdated->score_team2);
     }
 
-    public function test_delete_a_sport(): void
+    public function test_delete_an_event(): void
     {
+        $this->seed();
+        $phase = Phase::first();
+        $event = Event::where('phase_id', $phase->id)->first();
+
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->deleteJson($this->getEndPoint() . 'sports/FOOT');
+        $response = $this->deleteJson($this->getEndPoint() . "phases/$phase->id/events/$event->id");
         $response->assertStatus(204);
 
-        $this->assertDatabaseMissing('sports', ['id' => 'FOOT']);
+        $this->assertDatabaseMissing('events', ['id' => $event->id]);
     }
 
-    public function test_access_to_an_unknown_sport_must_return_a_404(): void
+    public function test_access_to_an_unknown_event_must_return_a_404(): void
     {
+        $this->seed();
+        $phase = Phase::first();
+
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->getJson($this->getEndPoint() . 'sports/TOTO');
+        $response = $this->getJson($this->getEndPoint() . "phases/$phase->id/events/0200325d-1ccb-47fb-ae9d-a790569b1ec6");
         $response->assertStatus(404);
     }
 
-    public function return_structure_sport(): array
+    public function return_structure_event(): array
     {
         return [
             'data' => [
                 'id',
-                'name',
-                'icon',
-                'status',
-                'position',
+                'team1',
+                'team2',
+                'date',
+                'location',
+                'status'
             ],
         ];
     }
