@@ -17,7 +17,9 @@ class CountryFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'position' => random_int(1, 99),
+            'name' => 'test country name',
+            'status' => 'ACTIVE',
         ];
     }
 }

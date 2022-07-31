@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             TeamSeeder::class,
             ParticipationSeeder::class,
             PhaseSeeder::class,
+            EventSeeder::class,
         ]);
     }
 }

@@ -18,9 +18,13 @@ class PhaseSeeder extends Seeder
         $competitions = Competition::all();
 
         foreach ($competitions as $competition) {
-            Phase::factory()->count(rand(5, 10))->create([
-                'competition_id' => $competition->id,
-            ]);
+            try {
+                Phase::factory()->count(rand(5, 10))->create([
+                    'competition_id' => $competition->id,
+                ]);
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         }
     }
 }
