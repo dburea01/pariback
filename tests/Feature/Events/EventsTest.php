@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Feature;
 
 use App\Models\Competition;
@@ -9,46 +10,46 @@ use App\Models\Phase;
 use App\Models\Sport;
 use App\Models\Team;
 use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class EventsTest extends TestCase
 {
-    // use RefreshDatabase;
-    use DatabaseMigrations;
+    use RefreshDatabase;
     use Request;
+    use InsertData;
 
-    public function test_a_get_of_events_of_phase(): void
+    public function test_get_events_of_phase(): void
     {
-        $this->seed();
-        $phase = Phase::first();
-        $events = Event::where('phase_id', $phase->id)->get();
+        $this->insert_data();
 
-        $response = $this->getJson($this->getEndPoint() . "phases/$phase->id/events");
+        $phase = Phase::first();
+        $countEvents = Event::where('phase_id', $phase->id)->count();
+        $response = $this->getJson($this->getEndPoint()."phases/$phase->id/events");
         $response->assertStatus(200);
 
         $eventsReturned = json_decode($response->getContent(), true)['data'];
 
-        $this->assertEquals(count($events), count($eventsReturned));
+        $this->assertEquals($countEvents, count($eventsReturned));
         $this->assertGreaterThan($eventsReturned[0]['date'], $eventsReturned[1]['date']);
     }
 
     public function test_a_post_of_event_without_body_must_return_an_error_with_the_list_of_errors(): void
     {
-        $this->seed();
+        $this->insert_data();
         $phase = Phase::first();
 
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->postJson($this->getEndPoint() . "phases/$phase->id/events");
+        $response = $this->postJson($this->getEndPoint()."phases/$phase->id/events");
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['team1_id', 'team2_id', 'date', 'status']);
     }
 
     public function test_a_post_of_event_with_wrong_body_must_return_an_error(): void
     {
-        $this->seed();
+        $this->insert_data();
         $phase = Phase::first();
 
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
@@ -60,14 +61,14 @@ class EventsTest extends TestCase
             'date' => '2022-07-1234',
             'status' => 'tutu',
         ];
-        $response = $this->postJson($this->getEndPoint() . "phases/$phase->id/events");
+        $response = $this->postJson($this->getEndPoint()."phases/$phase->id/events");
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['team1_id', 'team2_id', 'date', 'status']);
     }
 
     public function test_a_post_of_event_with_two_same_teams_must_return_an_error(): void
     {
-        $this->seed();
+        $this->insert_data();
         $phase = Phase::first();
 
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
@@ -82,14 +83,14 @@ class EventsTest extends TestCase
             'status' => 'PLANNED',
         ];
 
-        $response = $this->postJson($this->getEndPoint() . "phases/$phase->id/events", $event);
+        $response = $this->postJson($this->getEndPoint()."phases/$phase->id/events", $event);
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['team2_id']);
     }
 
     public function test_a_post_of_event_with_a_team_already_present_must_return_an_error(): void
     {
-        $this->seed();
+        $this->insert_data();
         $phase = Phase::first();
         $competition = Competition::find($phase->competition_id);
         $country = Country::find($competition->country_id);
@@ -119,17 +120,17 @@ class EventsTest extends TestCase
             'team2_id' => $team2->id,
             'date' => '2022-07-12 21:00',
             'status' => 'PLANNED',
-            'location' => 'location'
+            'location' => 'location',
         ];
 
-        $response = $this->postJson($this->getEndPoint() . "phases/$phase->id/events", $event);
+        $response = $this->postJson($this->getEndPoint()."phases/$phase->id/events", $event);
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['team1_id', 'team2_id']);
     }
 
     public function test_a_post_of_event_with_correct_body_must_create_the_event(): void
     {
-        $this->seed();
+        $this->insert_data();
         $phase = Phase::first();
         $competition = Competition::find($phase->competition_id);
         $country = Country::find($competition->country_id);
@@ -158,10 +159,10 @@ class EventsTest extends TestCase
             'team2_id' => $team2->id,
             'date' => '2022-07-12 21:00',
             'status' => 'PLANNED',
-            'location' => 'location'
+            'location' => 'location',
         ];
 
-        $response = $this->postJson($this->getEndPoint() . "phases/$phase->id/events", $event);
+        $response = $this->postJson($this->getEndPoint()."phases/$phase->id/events", $event);
         $response->assertStatus(201)
         ->assertJsonStructure($this->return_structure_event());
 
@@ -177,7 +178,7 @@ class EventsTest extends TestCase
 
     public function test_a_put_of_event_with_correct_body_must_update_the_event(): void
     {
-        $this->seed();
+        $this->insert_data();
         $phase = Phase::first();
         $event = Event::where('phase_id', $phase->id)->first();
 
@@ -189,9 +190,9 @@ class EventsTest extends TestCase
             'status' => 'TERMINATED',
             'location' => 'location modified',
             'score_team1' => 3,
-            'score_team2' => 1
+            'score_team2' => 1,
         ];
-        $response = $this->putJson($this->getEndPoint() . "phases/$phase->id/events/$event->id", $eventToUpdate);
+        $response = $this->putJson($this->getEndPoint()."phases/$phase->id/events/$event->id", $eventToUpdate);
         $response->assertStatus(200)
         ->assertJsonStructure($this->return_structure_event());
 
@@ -207,14 +208,14 @@ class EventsTest extends TestCase
 
     public function test_delete_an_event(): void
     {
-        $this->seed();
+        $this->insert_data();
         $phase = Phase::first();
         $event = Event::where('phase_id', $phase->id)->first();
 
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->deleteJson($this->getEndPoint() . "phases/$phase->id/events/$event->id");
+        $response = $this->deleteJson($this->getEndPoint()."phases/$phase->id/events/$event->id");
         $response->assertStatus(204);
 
         $this->assertDatabaseMissing('events', ['id' => $event->id]);
@@ -222,13 +223,13 @@ class EventsTest extends TestCase
 
     public function test_access_to_an_unknown_event_must_return_a_404(): void
     {
-        $this->seed();
+        $this->insert_data();
         $phase = Phase::first();
 
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->getJson($this->getEndPoint() . "phases/$phase->id/events/0200325d-1ccb-47fb-ae9d-a790569b1ec6");
+        $response = $this->getJson($this->getEndPoint()."phases/$phase->id/events/0200325d-1ccb-47fb-ae9d-a790569b1ec6");
         $response->assertStatus(404);
     }
 
@@ -241,7 +242,7 @@ class EventsTest extends TestCase
                 'team2',
                 'date',
                 'location',
-                'status'
+                'status',
             ],
         ];
     }

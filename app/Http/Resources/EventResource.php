@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -21,7 +22,7 @@ class EventResource extends JsonResource
             'location' => $this->location,
             'status' => $this->status,
             'score_team1' => $this->score_team1,
-            'score_team2' => $this->score_team2
+            'score_team2' => $this->score_team2,
         ];
     }
 }

@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Http\Requests;
 
 use App\Models\Event;
 use App\Models\Participation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Client\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class StoreEventRequest extends FormRequest

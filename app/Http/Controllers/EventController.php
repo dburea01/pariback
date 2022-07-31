@@ -1,12 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEventRequest;
-use App\Http\Requests\StorePhaseRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Http\Resources\EventResource;
-use App\Http\Resources\PhaseResource;
-use App\Models\Competition;
 use App\Models\Event;
 use App\Models\Phase;
 use App\Repositories\EventRepository;
@@ -34,7 +32,7 @@ class EventController extends Controller
 
             return new EventResource($event);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the event.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the event.'.$th->getMessage()]);
         }
     }
 
@@ -50,7 +48,7 @@ class EventController extends Controller
 
             return new EventResource($event);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to update the event.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to update the event.'.$th->getMessage()]);
         }
     }
 
@@ -61,7 +59,7 @@ class EventController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the event.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the event.'.$th->getMessage()]);
         }
     }
 }
