@@ -30,11 +30,12 @@ class StoreBetRequest extends FormRequest
         return [
             'user_id' => [
                 Rule::requiredIf(Auth::user()->is_admin),
+                'uuid',
                 Rule::exists('users', 'id')->where(function ($query) {
                     return $query->where('status', 'VALIDATED');
                 }),
             ],
-            'phase_id' => 'required|exists:phases,id',
+            'phase_id' => 'required|uuid|exists:phases,id',
             'title' => 'required',
             'points_good_score' => 'required|integer|gt:0',
             'points_good_1n2' => 'required|integer|gt:0',
