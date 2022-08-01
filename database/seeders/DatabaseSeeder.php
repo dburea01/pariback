@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\User;
@@ -30,6 +29,7 @@ class DatabaseSeeder extends Seeder
             PhaseSeeder::class,
             EventSeeder::class,
             BetSeeder::class,
+            BettorSeeder::class,
         ]);
     }
 }

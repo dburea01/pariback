@@ -405,7 +405,7 @@
 							"formdata": [
 								{
 									"key": "email",
-									"value": "ondricka.luz@example.net",
+									"value": "plittel@example.net",
 									"type": "default"
 								},
 								{
@@ -1876,6 +1876,741 @@
 							"path": [
 								"teams",
 								"fc28f608-580c-4373-b374-dc471c8746c6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Participations",
+			"item": [
+				{
+					"name": "participations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/participations",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"participations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "participations filtered by team",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/participations?competition_id=2bfe86e8-e0d2-449a-b545-0aa99a36800f",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"participations"
+							],
+							"query": [
+								{
+									"key": "competition_id",
+									"value": "2bfe86e8-e0d2-449a-b545-0aa99a36800f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "participations filtered by competition",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/participations?team_id=a94684ee-e31f-42a3-805a-1439246d158b",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"participations"
+							],
+							"query": [
+								{
+									"key": "team_id",
+									"value": "a94684ee-e31f-42a3-805a-1439246d158b"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "participations with errors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"team_id\": \"toto\",\r\n    \"competition_id\": \"titi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/participations",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"participations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "participations OK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"team_id\": \"b13932cd-3f1e-49c9-ba18-819b2556e3d2\",\r\n    \"competition_id\": \"63ad8efa-ea49-42a2-acd9-0d466955289a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/participations",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"participations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "participation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/participations/80cbb75d-aebe-40e2-a425-27e58c2766c6",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"participations",
+								"80cbb75d-aebe-40e2-a425-27e58c2766c6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Phases",
+			"item": [
+				{
+					"name": "phases",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "fr",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{path}}/competitions/4e98d3f1-7017-4ea9-9a80-9d7373ed1347/phases",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"competitions",
+								"4e98d3f1-7017-4ea9-9a80-9d7373ed1347",
+								"phases"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "phase",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept-Language",
+								"value": "fr",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{path}}/competitions/1afb0ad1-842c-4c90-b56d-980a59f0ba3d/phases/4c6bced9-6ee4-44a7-b8e9-70384123cc82",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"competitions",
+								"1afb0ad1-842c-4c90-b56d-980a59f0ba3d",
+								"phases",
+								"4c6bced9-6ee4-44a7-b8e9-70384123cc82"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "phase with errors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/competitions/1afb0ad1-842c-4c90-b56d-980a59f0ba3d/phases",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"competitions",
+								"1afb0ad1-842c-4c90-b56d-980a59f0ba3d",
+								"phases"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "phase OK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"short_name\": \"J2\",\r\n    \"name\" : \"Day 1\",\r\n    \"english_name\": \"Day 1\",\r\n    \"french_name\": \"Journée 1\",\r\n    \"start_date\": \"2022-08-15\",\r\n    \"end_date\": \"2022-08-18\",\r\n    \"status\": \"ACTIVE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/competitions/4e98d3f1-7017-4ea9-9a80-9d7373ed1347/phases",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"competitions",
+								"4e98d3f1-7017-4ea9-9a80-9d7373ed1347",
+								"phases"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "phase",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"short_name\": \"J34\",\r\n    \"english_name\": \"Day 1\",\r\n    \"french_name\": \"Journée 1\",\r\n    \"start_date\": \"2022-08-15\",\r\n    \"end_date\": \"2022-08-18\",\r\n    \"status\": \"ACTIVE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/competitions/4e98d3f1-7017-4ea9-9a80-9d7373ed1347/phases/bb48ece3-7caf-4ae2-a6fe-a637576246ef",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"competitions",
+								"4e98d3f1-7017-4ea9-9a80-9d7373ed1347",
+								"phases",
+								"bb48ece3-7caf-4ae2-a6fe-a637576246ef"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "phase",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"short_name\": \"J34\",\r\n    \"english_name\": \"Day 1\",\r\n    \"french_name\": \"Journée 1\",\r\n    \"start_date\": \"2022-08-15\",\r\n    \"end_date\": \"2022-08-18\",\r\n    \"status\": \"ACTIVE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/competitions/4e98d3f1-7017-4ea9-9a80-9d7373ed1347/phases/bb48ece3-7caf-4ae2-a6fe-a637576246ef",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"competitions",
+								"4e98d3f1-7017-4ea9-9a80-9d7373ed1347",
+								"phases",
+								"bb48ece3-7caf-4ae2-a6fe-a637576246ef"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Events",
+			"item": [
+				{
+					"name": "events",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/phases/0a396485-86dc-49c9-86ce-1eb6dd12a073/events",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"phases",
+								"0a396485-86dc-49c9-86ce-1eb6dd12a073",
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "event",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/phases/0a396485-86dc-49c9-86ce-1eb6dd12a073/events/d924e7f8-32c8-4f75-9d54-8dcbbc6f4f11",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"phases",
+								"0a396485-86dc-49c9-86ce-1eb6dd12a073",
+								"events",
+								"d924e7f8-32c8-4f75-9d54-8dcbbc6f4f11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "event with errors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{path}}/phases/0a396485-86dc-49c9-86ce-1eb6dd12a073/events",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"phases",
+								"0a396485-86dc-49c9-86ce-1eb6dd12a073",
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "event OK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"team1_id\": \"2c585f53-d78a-40f9-939f-f3f8e7e12e7f\",\r\n    \"team2_id\": \"ccebd7a0-af0a-40c5-a1da-ddcb889bd72f\",\r\n    \"date\": \"2022-07-23 20:45\",\r\n    \"status\": \"PLANNED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/phases/0a396485-86dc-49c9-86ce-1eb6dd12a073/events",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"phases",
+								"0a396485-86dc-49c9-86ce-1eb6dd12a073",
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "event",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"location modif\",\r\n    \"score_team1\": \"10\",\r\n    \"score_team2\": \"5\",\r\n    \"date\": \"2022-07-23 20:45\",\r\n    \"status\": \"INPROGRESS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/phases/0a396485-86dc-49c9-86ce-1eb6dd12a073/events/4e5a91e4-0e87-4878-9fb9-3fbe595b3ee5",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"phases",
+								"0a396485-86dc-49c9-86ce-1eb6dd12a073",
+								"events",
+								"4e5a91e4-0e87-4878-9fb9-3fbe595b3ee5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "event",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"location modif\",\r\n    \"score_team1\": \"10\",\r\n    \"score_team2\": \"5\",\r\n    \"date\": \"2022-07-23 20:45\",\r\n    \"status\": \"INPROGRESS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/phases/0a396485-86dc-49c9-86ce-1eb6dd12a073/events/4e5a91e4-0e87-4878-9fb9-3fbe595b3ee5",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"phases",
+								"0a396485-86dc-49c9-86ce-1eb6dd12a073",
+								"events",
+								"4e5a91e4-0e87-4878-9fb9-3fbe595b3ee5"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bets",
+			"item": [
+				{
+					"name": "bets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/bets",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bets filtered",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/bets?search=cupi&status=CLOSED",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "cupi"
+								},
+								{
+									"key": "status",
+									"value": "CLOSED"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bet",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{path}}/bets/e8e2b0cb-6bd0-4039-923d-e709d2e3cf74",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"e8e2b0cb-6bd0-4039-923d-e709d2e3cf74"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bet with errors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "javascript"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/bets",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bet OK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phase_id\": \"b208fe52-4219-4123-a821-53c282005387\",\r\n    \"title\": \"my bet\",\r\n    \"description\": \"my description\",\r\n    \"stake\": \"my stake\",\r\n    \"points_good_score\": \"3\",\r\n    \"points_good_1n2\": \"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/bets",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bet",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phase_id\": \"b208fe52-4219-4123-a821-53c282005387\",\r\n    \"points_good_score\": \"122\",\r\n    \"points_good_1n2\": \"14\",\r\n    \"status\": \"CLOSED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/bets/73aa1aec-566c-4fee-b085-af0421de89b1",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"73aa1aec-566c-4fee-b085-af0421de89b1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bet",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phase_id\": \"b208fe52-4219-4123-a821-53c282005387\",\r\n    \"points_good_score\": \"122\",\r\n    \"points_good_1n2\": \"14\",\r\n    \"status\": \"CLOSED\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/bets/73aa1aec-566c-4fee-b085-af0421de89b1",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"73aa1aec-566c-4fee-b085-af0421de89b1"
 							]
 						}
 					},

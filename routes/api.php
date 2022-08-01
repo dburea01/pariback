@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BetController;
+use App\Http\Controllers\BettorController;
 use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\EventController;
@@ -41,6 +42,7 @@ Route::prefix('v1')->group(function () {
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('bets', BetController::class)->whereUuid('bet');
+    Route::apiResource('bets/{bet}/bettors', BettorController::class)->whereUuid(['bet', 'bettor']);
 });
 
 Route::prefix('v1')->middleware(['auth:sanctum', 'ensureUserIsAdmin'])->group(function () {
