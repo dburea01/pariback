@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBetRequest;
@@ -13,20 +12,14 @@ class BetController extends Controller
 {
     private $betRepository;
 
-    private $bettorService;
-
     public function __construct(
-        BetRepository $betRepository,
-        // BettorService $bettorService
+        BetRepository $betRepository
     ) {
         $this->betRepository = $betRepository;
-
-        // $this->bettorService = $bettorService;
     }
 
     public function index(Request $request)
     {
-        // $this->authorize('viewAny', Bet::class);
         $bets = $this->betRepository->index($request->all());
 
         return BetResource::collection($bets);
@@ -39,7 +32,7 @@ class BetController extends Controller
 
             return new BetResource($bet);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the bet.'.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the bet.' . $th->getMessage()]);
         }
     }
 
@@ -58,7 +51,7 @@ class BetController extends Controller
 
             return new BetResource($bet);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to update the bet.'.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to update the bet.' . $th->getMessage()]);
         }
     }
 
@@ -70,7 +63,7 @@ class BetController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the bet.'.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the bet.' . $th->getMessage()]);
         }
     }
 }
