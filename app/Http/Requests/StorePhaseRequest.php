@@ -69,7 +69,7 @@ class StorePhaseRequest extends FormRequest
                 $this->end_date < $this->competition->start_date
                 ||
                 $this->end_date > $this->competition->end_date
-                ) {
+            ) {
                 // todo : make an internationalizable message
                 $validator->errors()->add('dates', 'The dates are not included in the dates of the competition : '.$this->competition->start_date.' ==> '.$this->competition->end_date);
             }

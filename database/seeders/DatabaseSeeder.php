@@ -19,11 +19,17 @@ class DatabaseSeeder extends Seeder
             'status' => 'VALIDATED',
         ]);
 
+        User::factory()->create([
+            'is_admin' => false,
+            'status' => 'VALIDATED',
+        ]);
+
         $this->call([
             TeamSeeder::class,
             ParticipationSeeder::class,
             PhaseSeeder::class,
             EventSeeder::class,
+            BetSeeder::class,
         ]);
     }
 }
