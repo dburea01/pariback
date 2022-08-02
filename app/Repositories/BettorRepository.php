@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Models\Bet;
 use App\Models\Bettor;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -14,8 +16,14 @@ class BettorRepository
         ->join('users', 'users.id', 'bettors.user_id')
         ->where('bettors.bet_id', $bet->id)
         ->orderBy('users.name')
-        ->select('bettors.id', 'users.id as user_id', 'users.name', 'users.email', 'bettors.token', 'bettors.invitation_sent_at')
+        ->select('bettors.id', 'users.id as user_id', 'users.name', 'users.email', 'users.status', 'bettors.token', 'bettors.invitation_sent_at')
         ->get();
+    }
+
+    public function getBettorsOfBet(Bet $bet)
+    {
+        // return Bettor::query()->where('bet_id', $bet->id)->with('user')->orderBy(User::select('name')->whereColumn('users.id', 'bettors.user_id'))->get();
+        return Bettor::with('user')->where('bet_id', $bet->id)->get()->sortBy('user.name');
     }
 
     public function store(array $data): Bettor

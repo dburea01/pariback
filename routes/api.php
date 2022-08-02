@@ -37,12 +37,13 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('participations', ParticipationController::class)->only(['index', 'show'])->whereUuid('participation');
     Route::apiResource('competitions/{competition}/phases', PhaseController::class)->only(['index', 'show'])->whereUuid(['competition', 'phase']);
     Route::apiResource('phases/{phase}/events', EventController::class)->only(['index', 'show'])->whereUuid(['phase', 'event']);
+    Route::get('bets/{bet}/bettors', [BettorController::class, 'index'])->whereUuid(['bet', 'bettor']);
 });
 
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('bets', BetController::class)->whereUuid('bet');
-    Route::apiResource('bets/{bet}/bettors', BettorController::class)->whereUuid(['bet', 'bettor']);
+    Route::apiResource('bets/{bet}/bettors', BettorController::class)->only(['store', 'destroy'])->whereUuid(['bet', 'bettor']);
 });
 
 Route::prefix('v1')->middleware(['auth:sanctum', 'ensureUserIsAdmin'])->group(function () {

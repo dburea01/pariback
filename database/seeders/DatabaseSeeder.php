@@ -1,7 +1,7 @@
 <?php
+
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,17 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->create([
-            'is_admin' => true,
-            'status' => 'VALIDATED',
-        ]);
-
-        User::factory()->create([
-            'is_admin' => false,
-            'status' => 'VALIDATED',
-        ]);
-
         $this->call([
+            UserSeeder::class,
             TeamSeeder::class,
             ParticipationSeeder::class,
             PhaseSeeder::class,

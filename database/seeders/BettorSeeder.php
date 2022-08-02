@@ -1,10 +1,10 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\Bet;
 use App\Models\Bettor;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class BettorSeeder extends Seeder

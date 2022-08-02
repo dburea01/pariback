@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -15,11 +16,11 @@ class BettorResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'token' => $this->when($request->user()->isAdmin(), $this->token),
-            'invitation_sent_at' => $this->invitation_sent_at,
+            'user' => new UserResource($this->user),
+            $this->mergeWhen($request->user() && $request->user()->isAdmin(), [
+                'token' => $this->token,
+                'status' => $this->status,
+            ]),
         ];
     }
 }
