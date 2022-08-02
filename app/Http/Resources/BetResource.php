@@ -24,6 +24,7 @@ class BetResource extends JsonResource
             'status' => $this->status,
             'points_good_score' => $this->points_good_score,
             'points_good_1n2' => $this->points_good_1n2,
+            'bettors_count' => $this->bettors_count,
         ];
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class BettorResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,13 +16,9 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-
+            'user' => new UserResource($this->user),
             $this->mergeWhen($request->user() && $request->user()->isAdmin(), [
-                'created_at' => $this->created_at,
-                'updated_at' => $this->updated_at,
-                'email_verified_at' => $this->email_verified_at,
+                'token' => $this->token,
                 'status' => $this->status,
             ]),
         ];

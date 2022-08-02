@@ -9,7 +9,7 @@ class BetRepository
 {
     public function index(array $filters)
     {
-        $bets = Bet::with(['user', 'phase']);
+        $bets = Bet::with(['user', 'phase'])->withCount(['bettors']);
 
         if (array_key_exists('search', $filters) && $filters['search'] !== '') {
             $bets->where(function ($query) use ($filters) {
