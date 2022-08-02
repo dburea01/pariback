@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Repositories;
 
 use App\Models\Bet;
@@ -22,7 +21,6 @@ class BettorRepository
 
     public function getBettorsOfBet(Bet $bet)
     {
-        // return Bettor::query()->where('bet_id', $bet->id)->with('user')->orderBy(User::select('name')->whereColumn('users.id', 'bettors.user_id'))->get();
         return Bettor::with('user')->where('bet_id', $bet->id)->get()->sortBy('user.name');
     }
 
