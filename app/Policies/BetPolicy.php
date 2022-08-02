@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Policies;
 
 use App\Models\Bet;
@@ -28,6 +27,11 @@ class BetPolicy
     }
 
     public function delete(User $user, Bet $bet)
+    {
+        return $user->id === $bet->user_id;
+    }
+
+    public function activate(User $user, Bet $bet)
     {
         return $user->id === $bet->user_id;
     }

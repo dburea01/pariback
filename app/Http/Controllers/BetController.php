@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBetRequest;
@@ -7,16 +6,21 @@ use App\Http\Requests\UpdateBetRequest;
 use App\Http\Resources\BetResource;
 use App\Models\Bet;
 use App\Repositories\BetRepository;
+use App\Services\BettorService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BetController extends Controller
 {
     private $betRepository;
+    private $bettorService;
 
     public function __construct(
-        BetRepository $betRepository
+        BetRepository $betRepository,
+        BettorService $bettorService
     ) {
         $this->betRepository = $betRepository;
+        $this->bettorService = $bettorService;
     }
 
     public function index(Request $request)
@@ -33,7 +37,7 @@ class BetController extends Controller
 
             return new BetResource($bet);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the bet.'.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the bet.' . $th->getMessage()]);
         }
     }
 
@@ -47,13 +51,13 @@ class BetController extends Controller
 
     public function update(UpdateBetRequest $request, Bet $bet)
     {
-        // see the autjorization in the UpdateBetRequest
+        // see the authorization in the UpdateBetRequest
         try {
             $bet = $this->betRepository->update($bet, $request->all());
 
             return new BetResource($bet);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to update the bet.'.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to update the bet.' . $th->getMessage()]);
         }
     }
 
@@ -65,7 +69,25 @@ class BetController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the bet.'.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the bet.' . $th->getMessage()]);
+        }
+    }
+
+    public function activate(Bet $bet)
+    {
+        $this->authorize('activate', $bet);
+
+        DB::beginTransaction();
+        try {
+            $this->betRepository->modifyStatus($bet, 'INPROGRESS');
+            $this->bettorService->sendInvitationBettors($bet);
+            DB::commit();
+
+            return response()->json(['success' => trans('messages.bet_activated_successfully')], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return response()->json(['error' => trans('messages.bet_not_activated', ['msg_error' => $th->getMessage()])], 422);
         }
     }
 }
