@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -16,7 +17,7 @@ class UserHistoEmailFactory extends Factory
     public function definition()
     {
         return [
-            'sent_at' => $this->faker->date()
+            'sent_at' => $this->faker->date(),
         ];
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Feature;
 
 use App\Models\Bet;
@@ -17,7 +18,7 @@ class BetsPoliciesTest extends TestCase
     {
         $this->insert_data();
 
-        $response = $this->getJson($this->getEndPoint() . 'bets');
+        $response = $this->getJson($this->getEndPoint().'bets');
         $response->assertStatus(401);
     }
 
@@ -33,13 +34,13 @@ class BetsPoliciesTest extends TestCase
         Bet::factory()->count(3)->create(['user_id' => $userBNotAdmin, 'phase_id' => $phase->id]);
 
         $this->actingAs($userANotAdmin);
-        $response = $this->getJson($this->getEndPoint() . 'bets');
+        $response = $this->getJson($this->getEndPoint().'bets');
 
         $betsReturned = json_decode($response->getContent(), true)['data'];
         $this->assertEquals(2, count($betsReturned));
 
         $this->actingAs($userBNotAdmin);
-        $response = $this->getJson($this->getEndPoint() . 'bets');
+        $response = $this->getJson($this->getEndPoint().'bets');
 
         $betsReturned = json_decode($response->getContent(), true)['data'];
         $this->assertEquals(3, count($betsReturned));
@@ -58,7 +59,7 @@ class BetsPoliciesTest extends TestCase
 
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
-        $response = $this->getJson($this->getEndPoint() . 'bets');
+        $response = $this->getJson($this->getEndPoint().'bets');
 
         $betsReturned = json_decode($response->getContent(), true)['data'];
         $this->assertEquals(5, count($betsReturned));
@@ -76,11 +77,11 @@ class BetsPoliciesTest extends TestCase
         $betB = Bet::factory()->create(['user_id' => $userBNotAdmin, 'phase_id' => $phase->id]);
 
         $this->actingAs($userANotAdmin);
-        $response = $this->getJson($this->getEndPoint() . "bets/$betA->id")
+        $response = $this->getJson($this->getEndPoint()."bets/$betA->id")
         ->assertStatus(200);
 
         $this->actingAs($userBNotAdmin);
-        $response = $this->getJson($this->getEndPoint() . "bets/$betA->id")
+        $response = $this->getJson($this->getEndPoint()."bets/$betA->id")
         ->assertStatus(403);
     }
 
@@ -95,19 +96,19 @@ class BetsPoliciesTest extends TestCase
         $userBAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
 
         $this->actingAs($userBAdmin);
-        $response = $this->getJson($this->getEndPoint() . "bets/$betA->id")
+        $response = $this->getJson($this->getEndPoint()."bets/$betA->id")
         ->assertStatus(200);
     }
 
     public function test_you_must_be_authenticated_to_create_a_bet(): void
     {
-        $response = $this->postJson($this->getEndPoint() . 'bets');
+        $response = $this->postJson($this->getEndPoint().'bets');
         $response->assertStatus(401);
 
         $userANotAdmin = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
         $this->actingAs($userANotAdmin);
 
-        $response = $this->postJson($this->getEndPoint() . 'bets');
+        $response = $this->postJson($this->getEndPoint().'bets');
         $response->assertStatus(422);
     }
 
@@ -122,11 +123,11 @@ class BetsPoliciesTest extends TestCase
         $userBNotAdmin = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
 
         $this->actingAs($userANotAdmin);
-        $response = $this->putJson($this->getEndPoint() . "bets/$betA->id")
+        $response = $this->putJson($this->getEndPoint()."bets/$betA->id")
         ->assertStatus(200);
 
         $this->actingAs($userBNotAdmin);
-        $response = $this->putJson($this->getEndPoint() . "bets/$betA->id")
+        $response = $this->putJson($this->getEndPoint()."bets/$betA->id")
         ->assertStatus(403);
     }
 
@@ -141,7 +142,7 @@ class BetsPoliciesTest extends TestCase
         $userBAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
 
         $this->actingAs($userBAdmin);
-        $response = $this->putJson($this->getEndPoint() . "bets/$betA->id")
+        $response = $this->putJson($this->getEndPoint()."bets/$betA->id")
         ->assertStatus(200);
     }
 
@@ -156,11 +157,11 @@ class BetsPoliciesTest extends TestCase
         $userBNotAdmin = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
 
         $this->actingAs($userBNotAdmin);
-        $response = $this->deleteJson($this->getEndPoint() . "bets/$betA->id")
+        $response = $this->deleteJson($this->getEndPoint()."bets/$betA->id")
         ->assertStatus(403);
 
         $this->actingAs($userANotAdmin);
-        $response = $this->deleteJson($this->getEndPoint() . "bets/$betA->id")
+        $response = $this->deleteJson($this->getEndPoint()."bets/$betA->id")
         ->assertStatus(204);
     }
 
@@ -175,7 +176,7 @@ class BetsPoliciesTest extends TestCase
         $userBAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
 
         $this->actingAs($userBAdmin);
-        $response = $this->deleteJson($this->getEndPoint() . "bets/$betA->id")
+        $response = $this->deleteJson($this->getEndPoint()."bets/$betA->id")
         ->assertStatus(204);
     }
 
@@ -190,11 +191,11 @@ class BetsPoliciesTest extends TestCase
         $userBNotAdmin = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
 
         $this->actingAs($userBNotAdmin);
-        $this->patchJson($this->getEndPoint() . "bets/$betA->id/activate")
+        $this->patchJson($this->getEndPoint()."bets/$betA->id/activate")
         ->assertStatus(403);
 
         $this->actingAs($userANotAdmin);
-        $this->patchJson($this->getEndPoint() . "bets/$betA->id/activate")
+        $this->patchJson($this->getEndPoint()."bets/$betA->id/activate")
         ->assertStatus(200);
     }
 
@@ -209,7 +210,7 @@ class BetsPoliciesTest extends TestCase
         $userBAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
 
         $this->actingAs($userBAdmin);
-        $this->patchJson($this->getEndPoint() . "bets/$betA->id/activate")
+        $this->patchJson($this->getEndPoint()."bets/$betA->id/activate")
         ->assertStatus(200);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBettorRequest;
@@ -18,7 +19,9 @@ class BettorController extends Controller
     private $bettorRepository;
 
     private $userRepository;
+
     private $userHistoEmailRepository;
+
     private $bettorService;
 
     public function __construct(
@@ -46,7 +49,7 @@ class BettorController extends Controller
         $user = User::where('email', $request->email)->first();
 
         try {
-            if (!$user) {
+            if (! $user) {
                 $user = $this->userRepository->insert([
                     'name' => $request->name,
                     'email' => $request->email,
@@ -61,7 +64,7 @@ class BettorController extends Controller
 
             return new BettorResource($bettor);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the bettor.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the bettor.'.$th->getMessage()]);
         }
     }
 
@@ -73,7 +76,7 @@ class BettorController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the bettor.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the bettor.'.$th->getMessage()]);
         }
     }
 
@@ -88,35 +91,35 @@ class BettorController extends Controller
         DB::beginTransaction();
         try {
             $quantityEmailSent = $this->userHistoEmailRepository->userHistoEmailOfTheDay($user->id, 'INVITATION_SENT');
+
             if ($quantityEmailSent < config('params.max_emails_resent_email_invitation_a_day')) {
                 $organizer = User::find($bet->user_id);
                 $this->bettorService->sendInvitationOneBettor($bettor, $organizer, $bet);
                 DB::commit();
 
-                return response()->json([
-                    'success' => trans(
-                        'messages.email_resent_successfully',
-                        ['name' => $user->name],
-                        422
-                    )]);
+                return response()->json(['success' => trans('messages.email_resent_successfully', ['name' => $user->name])], 200);
             } else {
-                Log::info('[RESEND_EMAIL_INVITATION] Max email sent for INVITATION_SENT for today for email ' . $user->email);
+                Log::info('[RESEND_EMAIL_INVITATION] Max email sent for INVITATION_SENT for today for email '.$user->email);
 
-                return response()->json([
-                    'error' => trans(
+                return response()->json(
+                    ['error' => trans(
                         'messages.max_emails_resent_email_invitation_a_day',
-                        ['name' => $user->name, 'qtyMax' => config('params.max_emails_resent_email_invitation_a_day')],
-                        422
-                    )]);
+                        ['name' => $user->name, 'qtyMax' => config('params.max_emails_resent_email_invitation_a_day')]
+                    )],
+                    422
+                );
             }
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json([
-                'error' => trans(
-                    'messages.email_invitation_not_resent_successfully',
-                    ['name' => $user->name, 'msgError' => $th->getMessage()],
-                    422
-                )]);
+
+            return response()->json(
+                [
+                    'error' => trans(
+                        'messages.email_invitation_not_resent_successfully',
+                        ['name' => $user->name, 'msgError' => $th->getMessage()]
+                    ), ],
+                422
+            );
         }
     }
 }

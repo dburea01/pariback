@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBetRequest;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 class BetController extends Controller
 {
     private $betRepository;
+
     private $bettorService;
 
     public function __construct(
@@ -37,7 +39,7 @@ class BetController extends Controller
 
             return new BetResource($bet);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the bet.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the bet.'.$th->getMessage()]);
         }
     }
 
@@ -57,7 +59,7 @@ class BetController extends Controller
 
             return new BetResource($bet);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to update the bet.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to update the bet.'.$th->getMessage()]);
         }
     }
 
@@ -69,7 +71,7 @@ class BetController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the bet.' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the bet.'.$th->getMessage()]);
         }
     }
 

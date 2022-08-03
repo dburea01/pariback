@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\Bet;
@@ -44,7 +45,7 @@ class BettorService
 
         foreach ($eventBettings as $eventBetting) {
             // calculate the points if the match is done
-            if (!is_null($eventBetting->event_score_team1) && !is_null($eventBetting->event_score_team2)) {
+            if (! is_null($eventBetting->event_score_team1) && ! is_null($eventBetting->event_score_team2)) {
                 /**
                  * good score
                  */
@@ -53,9 +54,9 @@ class BettorService
                     $eventBetting->event_score_team2 === $eventBetting->event_bettings_score_team2) {
                     $quantityPoints = $quantityPoints + $bet->points_good_score;
 
-                /**
-                 * good 1N2
-                 */
+                    /**
+                     * good 1N2
+                     */
                 } elseif (
                     ($eventBetting->event_score_team1 > $eventBetting->event_score_team2 &&
                     $eventBetting->event_bettings_score_team1 > $eventBetting->event_bettings_score_team2)
@@ -66,7 +67,7 @@ class BettorService
                     ($eventBetting->event_score_team1 == $eventBetting->event_score_team2 &&
                     $eventBetting->event_bettings_score_team1 == $eventBetting->event_bettings_score_team2)
 
-                    ) {
+                ) {
                     $quantityPoints = $quantityPoints + $bet->points_good_1n2;
                 }
             }
@@ -86,7 +87,7 @@ class BettorService
             }
 
             if (config('app.env') !== 'production') {
-                Log::info('invitation pour user ' . $bettor->user_id);
+                Log::info('invitation pour user '.$bettor->user_id);
                 Log::info('attente 2 sec poru mailtrap.....');
                 sleep(2);
             }

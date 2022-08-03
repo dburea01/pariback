@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Feature;
 
 use App\Models\Bet;
@@ -27,7 +28,7 @@ class BettorsEmailsTest extends TestCase
         $this->create_bettors($bet, 3);
 
         $this->actingAs($user);
-        $response = $this->patchJson($this->getEndPoint() . "bets/$bet->id/activate");
+        $response = $this->patchJson($this->getEndPoint()."bets/$bet->id/activate");
         $response->assertStatus(200);
         Notification::assertCount(3);
     }
@@ -44,7 +45,7 @@ class BettorsEmailsTest extends TestCase
         $bettor = Bettor::where('bet_id', $bet->id)->first();
 
         $this->actingAs($user);
-        $response = $this->postJson($this->getEndPoint() . "bets/$bet->id/bettors/$bettor->id/resend-email-invitation")->dump();
+        $response = $this->postJson($this->getEndPoint()."bets/$bet->id/bettors/$bettor->id/resend-email-invitation")->dump();
         $response->assertStatus(200);
         Notification::assertCount(1);
     }
@@ -61,7 +62,7 @@ class BettorsEmailsTest extends TestCase
         $bettor = Bettor::where('bet_id', $bet->id)->first();
 
         $this->actingAs($user);
-        $response = $this->postJson($this->getEndPoint() . "bets/$bet->id/bettors/$bettor->id/resend-email-invitation");
+        $response = $this->postJson($this->getEndPoint()."bets/$bet->id/bettors/$bettor->id/resend-email-invitation");
         $response->assertStatus(403);
         Notification::assertCount(0);
     }
@@ -74,16 +75,17 @@ class BettorsEmailsTest extends TestCase
         $phase = Phase::first();
         $user = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
         $bet = Bet::factory()->create(['user_id' => $user->id, 'phase_id' => $phase->id, 'status' => 'INPROGRESS']);
-        $this->create_bettors($bet, 3);
+        $this->create_bettors($bet, 2);
         $bettorToResend = Bettor::where('bet_id', $bet->id)->first();
 
         UserHistoEmail::factory()->count(config('params.max_emails_resent_email_invitation_a_day'))->create([
             'user_id' => $bettorToResend->user_id,
-            'email_type' => 'INVITATION_SENT'
+            'email_type' => 'INVITATION_SENT',
+            'sent_at' => now(),
         ]);
 
         $this->actingAs($user);
-        $response = $this->postJson($this->getEndPoint() . "bets/$bet->id/bettors/$bettorToResend->id/resend-email-invitation")->dump();
+        $response = $this->postJson($this->getEndPoint()."bets/$bet->id/bettors/$bettorToResend->id/resend-email-invitation");
         $response->assertStatus(422);
         Notification::assertCount(0);
     }
