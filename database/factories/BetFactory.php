@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -20,7 +19,7 @@ class BetFactory extends Factory
             'title' => $this->faker->sentence(),
             'description' => $this->faker->paragraphs(3, true),
             'stake' => $this->faker->sentence(),
-            'status' => $this->faker->randomElement(['DRAFT', 'OPEN', 'CLOSED']),
+            'status' => $this->faker->randomElement(['DRAFT', 'INPROGRESS', 'CLOSED']),
             'points_good_score' => random_int(3, 5),
             'points_good_1n2' => random_int(0, 2),
         ];

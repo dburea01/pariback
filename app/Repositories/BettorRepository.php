@@ -3,7 +3,6 @@ namespace App\Repositories;
 
 use App\Models\Bet;
 use App\Models\Bettor;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 

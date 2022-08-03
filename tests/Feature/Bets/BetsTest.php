@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Feature;
 
 use App\Models\Bet;
@@ -21,7 +20,7 @@ class BetsTest extends TestCase
         $user = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
         $this->actingAs($user);
         $bets = Bet::factory()->count(3)->create(['user_id' => $user->id, 'phase_id' => $phase->id]);
-        $response = $this->getJson($this->getEndPoint().'bets');
+        $response = $this->getJson($this->getEndPoint() . 'bets');
         $response->assertStatus(200);
 
         $betsReturned = json_decode($response->getContent(), true)['data'];
@@ -33,14 +32,14 @@ class BetsTest extends TestCase
         $userNotAdmin = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
         $this->actingAs($userNotAdmin);
 
-        $response = $this->postJson($this->getEndPoint().'bets');
+        $response = $this->postJson($this->getEndPoint() . 'bets');
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['phase_id', 'title', 'points_good_score', 'points_good_1n2']);
 
         $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
         $this->actingAs($userAdmin);
 
-        $response = $this->postJson($this->getEndPoint().'bets');
+        $response = $this->postJson($this->getEndPoint() . 'bets');
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['user_id', 'phase_id', 'title', 'points_good_score', 'points_good_1n2', 'status']);
     }
@@ -57,7 +56,7 @@ class BetsTest extends TestCase
             'points_good_1n2' => 'toto',
         ];
 
-        $response = $this->postJson($this->getEndPoint().'bets', $bet);
+        $response = $this->postJson($this->getEndPoint() . 'bets', $bet);
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['phase_id', 'title', 'points_good_score', 'points_good_1n2']);
     }
@@ -78,7 +77,7 @@ class BetsTest extends TestCase
             'points_good_1n2' => '2',
         ];
 
-        $response = $this->postJson($this->getEndPoint().'bets', $bet);
+        $response = $this->postJson($this->getEndPoint() . 'bets', $bet);
         $response->assertStatus(201)
         ->assertJsonStructure($this->return_structure_bet());
 
@@ -113,7 +112,7 @@ class BetsTest extends TestCase
             'points_good_1n2' => '20',
         ];
 
-        $response = $this->putJson($this->getEndPoint()."bets/$bet->id", $betToUpdate);
+        $response = $this->putJson($this->getEndPoint() . "bets/$bet->id", $betToUpdate);
         $response->assertStatus(200)
         ->assertJsonStructure($this->return_structure_bet());
 
@@ -139,7 +138,7 @@ class BetsTest extends TestCase
             'phase_id' => $phase->id,
         ]);
 
-        $response = $this->deleteJson($this->getEndPoint()."bets/$bet->id");
+        $response = $this->deleteJson($this->getEndPoint() . "bets/$bet->id");
         $response->assertStatus(204);
 
         $this->assertDatabaseMissing('bets', ['id' => $bet->id]);
@@ -147,8 +146,56 @@ class BetsTest extends TestCase
 
     public function test_access_to_an_unknown_bet_must_return_a_404(): void
     {
-        $response = $this->getJson($this->getEndPoint().'bets/TOTO');
+        $response = $this->getJson($this->getEndPoint() . 'bets/TOTO');
         $response->assertStatus(404);
+    }
+
+    public function test_activate_an_unknow_bet_must_return_a_404():void
+    {
+        $user = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
+        $this->actingAs($user);
+
+        $response = $this->patchJson($this->getEndPoint() . 'bets/6c197903-3ba7-4d25-8f2d-d02ed28b2367/activate');
+        $response->assertStatus(404);
+    }
+
+    public function test_activate_a_bet_already_in_progress_must_return_an_error()
+    {
+        $this->insert_data();
+        $phase = Phase::first();
+
+        $user = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
+        $this->actingAs($user);
+
+        $bet = Bet::factory()->create([
+            'user_id' => $user->id,
+            'phase_id' => $phase->id,
+            'status' => 'INPROGRESS'
+        ]);
+
+        $response = $this->patchJson($this->getEndPoint() . "bets/$bet->id/activate");
+        $response->assertStatus(422);
+    }
+
+    public function test_activate_a_bet_in_a_draft_status_must_activate_the_bet()
+    {
+        $this->insert_data();
+        $phase = Phase::first();
+
+        $user = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
+        $this->actingAs($user);
+
+        $bet = Bet::factory()->create([
+            'user_id' => $user->id,
+            'phase_id' => $phase->id,
+            'status' => 'DRAFT'
+        ]);
+
+        $response = $this->patchJson($this->getEndPoint() . "bets/$bet->id/activate");
+        $response->assertStatus(200);
+
+        $betPatched = Bet::find($bet->id);
+        $this->assertEquals($betPatched->status, 'INPROGRESS');
     }
 
     public function return_structure_bet(): array

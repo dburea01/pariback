@@ -77,6 +77,9 @@ class BetController extends Controller
     {
         $this->authorize('activate', $bet);
 
+        if ($bet->status !== 'DRAFT') {
+            return response()->json(['error' => trans('messages.bet_already_activated')], 422);
+        }
         DB::beginTransaction();
         try {
             $this->betRepository->modifyStatus($bet, 'INPROGRESS');

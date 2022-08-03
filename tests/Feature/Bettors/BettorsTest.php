@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Feature;
 
 use App\Models\Bet;
@@ -24,7 +23,7 @@ class BettorsTest extends TestCase
         $this->create_bettors($bet);
 
         $this->actingAs($user);
-        $response = $this->getJson($this->getEndPoint()."bets/$bet->id/bettors");
+        $response = $this->getJson($this->getEndPoint() . "bets/$bet->id/bettors");
         $response->assertStatus(200);
 
         $betsReturned = json_decode($response->getContent(), true)['data'];
@@ -41,7 +40,7 @@ class BettorsTest extends TestCase
 
         $this->actingAs($user);
 
-        $response = $this->postJson($this->getEndPoint()."bets/$bet->id/bettors");
+        $response = $this->postJson($this->getEndPoint() . "bets/$bet->id/bettors");
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['name', 'email']);
     }
@@ -62,12 +61,12 @@ class BettorsTest extends TestCase
             'name' => 'name',
             'email' => $existingUser->email,
         ];
-        $response = $this->postJson($this->getEndPoint()."bets/$bet->id/bettors", $bettorToPost);
+        $response = $this->postJson($this->getEndPoint() . "bets/$bet->id/bettors", $bettorToPost);
         $response->assertStatus(422)
         ->assertJsonValidationErrors(['email']);
     }
 
-    public function test_a_post_of_bet_with_correct_body_must_create_the_bet(): void
+    public function test_a_post_of_bettor_with_correct_body_must_create_the_bettor(): void
     {
         $this->insert_data();
         $phase = Phase::first();
@@ -82,7 +81,7 @@ class BettorsTest extends TestCase
             'email' => 'test.test@test.fr',
         ];
 
-        $response = $this->postJson($this->getEndPoint()."bets/$bet->id/bettors", $bettorToPost);
+        $response = $this->postJson($this->getEndPoint() . "bets/$bet->id/bettors", $bettorToPost);
         $response->assertStatus(201)
         ->assertJsonStructure($this->return_structure_bettor());
 
@@ -103,7 +102,7 @@ class BettorsTest extends TestCase
         $this->create_bettors($bet);
         $bettorToDelete = Bettor::where('bet_id', $bet->id)->first();
 
-        $response = $this->deleteJson($this->getEndPoint()."bets/$bet->id/bettors/$bettorToDelete->id");
+        $response = $this->deleteJson($this->getEndPoint() . "bets/$bet->id/bettors/$bettorToDelete->id");
         $response->assertStatus(204);
 
         $this->assertDatabaseMissing('bettors', ['id' => $bettorToDelete->id]);
@@ -119,6 +118,7 @@ class BettorsTest extends TestCase
                     'name',
                     'email',
                 ],
+                'invitation_sent_at'
             ],
         ];
     }
