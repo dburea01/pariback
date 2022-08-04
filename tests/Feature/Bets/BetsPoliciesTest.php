@@ -179,4 +179,38 @@ class BetsPoliciesTest extends TestCase
         $response = $this->deleteJson($this->getEndPoint()."bets/$betA->id")
         ->assertStatus(204);
     }
+
+    public function test_an_authenticated_user_can_activate_only_his_bet(): void
+    {
+        $this->insert_data();
+        $phase = Phase::first();
+
+        $userANotAdmin = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
+        $betA = Bet::factory()->create(['user_id' => $userANotAdmin, 'phase_id' => $phase->id, 'status' => 'DRAFT']);
+
+        $userBNotAdmin = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
+
+        $this->actingAs($userBNotAdmin);
+        $this->patchJson($this->getEndPoint()."bets/$betA->id/activate")
+        ->assertStatus(403);
+
+        $this->actingAs($userANotAdmin);
+        $this->patchJson($this->getEndPoint()."bets/$betA->id/activate")
+        ->assertStatus(200);
+    }
+
+    public function test_an_admin_can_activate_any_bet(): void
+    {
+        $this->insert_data();
+        $phase = Phase::first();
+
+        $userANotAdmin = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
+        $betA = Bet::factory()->create(['user_id' => $userANotAdmin, 'phase_id' => $phase->id, 'status' => 'DRAFT']);
+
+        $userBAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
+
+        $this->actingAs($userBAdmin);
+        $this->patchJson($this->getEndPoint()."bets/$betA->id/activate")
+        ->assertStatus(200);
+    }
 }

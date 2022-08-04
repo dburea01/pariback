@@ -44,6 +44,8 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::apiResource('bets', BetController::class)->whereUuid('bet');
     Route::apiResource('bets/{bet}/bettors', BettorController::class)->only(['store', 'destroy'])->whereUuid(['bet', 'bettor']);
+    Route::post('bets/{bet}/bettors/{bettor}/resend-email-invitation', [BettorController::class, 'resendEmailInvitation'])->whereUuid(['bet', 'bettor']);
+    Route::patch('bets/{bet}/activate', [BetController::class, 'activate']);
 });
 
 Route::prefix('v1')->middleware(['auth:sanctum', 'ensureUserIsAdmin'])->group(function () {

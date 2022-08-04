@@ -31,4 +31,9 @@ class BetPolicy
     {
         return $user->id === $bet->user_id;
     }
+
+    public function activate(User $user, Bet $bet)
+    {
+        return $user->id === $bet->user_id;
+    }
 }

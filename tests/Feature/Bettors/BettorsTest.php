@@ -67,7 +67,7 @@ class BettorsTest extends TestCase
         ->assertJsonValidationErrors(['email']);
     }
 
-    public function test_a_post_of_bet_with_correct_body_must_create_the_bet(): void
+    public function test_a_post_of_bettor_with_correct_body_must_create_the_bettor(): void
     {
         $this->insert_data();
         $phase = Phase::first();
@@ -119,6 +119,7 @@ class BettorsTest extends TestCase
                     'name',
                     'email',
                 ],
+                'invitation_sent_at',
             ],
         ];
     }

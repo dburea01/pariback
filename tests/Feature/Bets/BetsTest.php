@@ -151,6 +151,54 @@ class BetsTest extends TestCase
         $response->assertStatus(404);
     }
 
+    public function test_activate_an_unknow_bet_must_return_a_404(): void
+    {
+        $user = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
+        $this->actingAs($user);
+
+        $response = $this->patchJson($this->getEndPoint().'bets/6c197903-3ba7-4d25-8f2d-d02ed28b2367/activate');
+        $response->assertStatus(404);
+    }
+
+    public function test_activate_a_bet_already_in_progress_must_return_an_error()
+    {
+        $this->insert_data();
+        $phase = Phase::first();
+
+        $user = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
+        $this->actingAs($user);
+
+        $bet = Bet::factory()->create([
+            'user_id' => $user->id,
+            'phase_id' => $phase->id,
+            'status' => 'INPROGRESS',
+        ]);
+
+        $response = $this->patchJson($this->getEndPoint()."bets/$bet->id/activate");
+        $response->assertStatus(422);
+    }
+
+    public function test_activate_a_bet_in_a_draft_status_must_activate_the_bet()
+    {
+        $this->insert_data();
+        $phase = Phase::first();
+
+        $user = User::factory()->create(['is_admin' => false, 'status' => 'VALIDATED']);
+        $this->actingAs($user);
+
+        $bet = Bet::factory()->create([
+            'user_id' => $user->id,
+            'phase_id' => $phase->id,
+            'status' => 'DRAFT',
+        ]);
+
+        $response = $this->patchJson($this->getEndPoint()."bets/$bet->id/activate");
+        $response->assertStatus(200);
+
+        $betPatched = Bet::find($bet->id);
+        $this->assertEquals($betPatched->status, 'INPROGRESS');
+    }
+
     public function return_structure_bet(): array
     {
         return [

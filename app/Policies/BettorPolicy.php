@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Policies;
 
 use App\Models\Bet;
@@ -23,6 +22,11 @@ class BettorPolicy
     }
 
     public function delete(User $user, Bet $bet)
+    {
+        return $bet->user_id === $user->id;
+    }
+
+    public function resendEmailInvitation(User $user, Bet $bet)
     {
         return $bet->user_id === $user->id;
     }
