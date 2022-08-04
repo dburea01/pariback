@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBettorRequest;
@@ -49,7 +48,7 @@ class BettorController extends Controller
         $user = User::where('email', $request->email)->first();
 
         try {
-            if (! $user) {
+            if (!$user) {
                 $user = $this->userRepository->insert([
                     'name' => $request->name,
                     'email' => $request->email,
@@ -64,7 +63,7 @@ class BettorController extends Controller
 
             return new BettorResource($bettor);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the bettor.'.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the bettor.' . $th->getMessage()]);
         }
     }
 
@@ -76,13 +75,13 @@ class BettorController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the bettor.'.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the bettor.' . $th->getMessage()]);
         }
     }
 
     public function resendEmailInvitation(Bet $bet, Bettor $bettor)
     {
-        // TODO : authorizations
+        $this->authorize('resendEmailInvitation', [Bettor::class, $bet]);
 
         abort_if($bet->id !== $bettor->bet_id, 404);
         abort_if($bet->status !== 'INPROGRESS', 403, trans('messages.bet_not_activated'));
@@ -99,7 +98,7 @@ class BettorController extends Controller
 
                 return response()->json(['success' => trans('messages.email_resent_successfully', ['name' => $user->name])], 200);
             } else {
-                Log::info('[RESEND_EMAIL_INVITATION] Max email sent for INVITATION_SENT for today for email '.$user->email);
+                Log::info('[RESEND_EMAIL_INVITATION] Max email sent for INVITATION_SENT for today for email ' . $user->email);
 
                 return response()->json(
                     ['error' => trans(

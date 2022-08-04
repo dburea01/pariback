@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Notifications;
 
 use App\Models\Bet;
@@ -11,7 +10,9 @@ use Illuminate\Support\HtmlString;
 
 class SendEmailInvitationBet extends Notification
 {
-    // use Queueable;
+    /* to submit the send via a queue : uncomment this
+    use Queueable;
+    */
 
     public $token;
 
@@ -50,7 +51,7 @@ class SendEmailInvitationBet extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = config('app.url').'/tobet/'.$this->token;
+        $url = config('app.url') . '/tobet/' . $this->token;
 
         $message = new MailMessage();
         $message->subject(trans('emailInvitationBet.subject', ['app_name' => config('app.name')]));
