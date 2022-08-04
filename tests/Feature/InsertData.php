@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Feature;
 
 use App\Models\Bet;
@@ -41,7 +40,7 @@ trait InsertData
         $user1 = User::factory()->create(['is_admin' => false]);
         $user2 = User::factory()->create(['is_admin' => true]);
 
-         Bet::factory()->count(3)->create(['user_id' => $user1->id, 'phase_id' => $phase1->id]);
+        Bet::factory()->count(3)->create(['user_id' => $user1->id, 'phase_id' => $phase1->id]);
         Bet::factory()->count(2)->create(['user_id' => $user2->id, 'phase_id' => $phase2->id]);
         */
     }

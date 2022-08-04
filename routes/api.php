@@ -6,6 +6,7 @@ use App\Http\Controllers\BettorController;
 use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\EventBettingController;
 use App\Http\Controllers\ParticipationController;
 use App\Http\Controllers\PhaseController;
 use App\Http\Controllers\SportController;
@@ -46,6 +47,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('bets/{bet}/bettors', BettorController::class)->only(['store', 'destroy'])->whereUuid(['bet', 'bettor']);
     Route::post('bets/{bet}/bettors/{bettor}/resend-email-invitation', [BettorController::class, 'resendEmailInvitation'])->whereUuid(['bet', 'bettor']);
     Route::patch('bets/{bet}/activate', [BetController::class, 'activate']);
+    Route::apiResource('/bets/{bet}/bettors/{bettor}/event-bettings', EventBettingController::class)->scoped()->only(['index', 'show', 'store', 'destroy'])->whereUuid(['bet', 'bettor', 'eventBetting']);
 });
 
 Route::prefix('v1')->middleware(['auth:sanctum', 'ensureUserIsAdmin'])->group(function () {

@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -21,6 +20,7 @@ class DatabaseSeeder extends Seeder
             EventSeeder::class,
             BetSeeder::class,
             BettorSeeder::class,
+            EventBettingSeeder::class,
         ]);
     }
 }

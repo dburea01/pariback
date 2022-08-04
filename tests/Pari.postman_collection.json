@@ -405,7 +405,7 @@
 							"formdata": [
 								{
 									"key": "email",
-									"value": "plittel@example.net",
+									"value": "justen.ohara@example.com",
 									"type": "default"
 								},
 								{
@@ -2474,13 +2474,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{path}}/bets/e8e2b0cb-6bd0-4039-923d-e709d2e3cf74",
+							"raw": "{{path}}/bets/152a0d7c-334e-47be-9dbf-1e5a928d8266",
 							"host": [
 								"{{path}}"
 							],
 							"path": [
 								"bets",
-								"e8e2b0cb-6bd0-4039-923d-e709d2e3cf74"
+								"152a0d7c-334e-47be-9dbf-1e5a928d8266"
 							]
 						}
 					},
@@ -2611,6 +2611,173 @@
 							"path": [
 								"bets",
 								"73aa1aec-566c-4fee-b085-af0421de89b1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "activate bet",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept-Charset",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/bets/2a0916f9-4ed1-4861-98bf-e127bba3577f/activate",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"2a0916f9-4ed1-4861-98bf-e127bba3577f",
+								"activate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bettors",
+			"item": [
+				{
+					"name": "bettors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/bets/2a0916f9-4ed1-4861-98bf-e127bba3577f/bettors",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"2a0916f9-4ed1-4861-98bf-e127bba3577f",
+								"bettors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bettor with errors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/bets/f0dca222-e9a5-444f-a91c-07540e89c2ee/bettors",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"f0dca222-e9a5-444f-a91c-07540e89c2ee",
+								"bettors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bettor ok",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"email@eddeeddemailfrz\",\r\n    \"name\": \"name dfdf\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/bets/f0dca222-e9a5-444f-a91c-07540e89c2ee/bettors",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"f0dca222-e9a5-444f-a91c-07540e89c2ee",
+								"bettors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bettor",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/bets/f0dca222-e9a5-444f-a91c-07540e89c2ee/bettors/b5a0939f-5ae3-45de-8ac2-911f14672b47",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"f0dca222-e9a5-444f-a91c-07540e89c2ee",
+								"bettors",
+								"b5a0939f-5ae3-45de-8ac2-911f14672b47"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "resend invitation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/bets/152a0d7c-334e-47be-9dbf-1e5a928d8266/bettors/3893c48c-2c2e-4eec-97d1-734c4449b7fd/resend-email-invitation",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"152a0d7c-334e-47be-9dbf-1e5a928d8266",
+								"bettors",
+								"3893c48c-2c2e-4eec-97d1-734c4449b7fd",
+								"resend-email-invitation"
 							]
 						}
 					},
