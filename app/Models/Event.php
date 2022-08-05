@@ -49,9 +49,9 @@ class Event extends Model
         return $this->belongsTo(Team::class, 'team2_id');
     }
 
-    public function eventBettings()
+    public function userBets()
     {
-        return $this->hasMany(EventBetting::class);
+        return $this->hasMany(UserBet::class);
     }
 
     public function getStartedAttribute()

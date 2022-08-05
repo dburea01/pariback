@@ -47,6 +47,7 @@ class BetsPoliciesTest extends TestCase
 
     public function test_an_admin_user_can_see_all_the_bets(): void
     {
+        // todo : surement à améliorer compte tenu d'une future pagination qui ne manquera pas d'arriver.
         $this->insert_data();
         $phase = Phase::first();
 
@@ -61,7 +62,7 @@ class BetsPoliciesTest extends TestCase
         $response = $this->getJson($this->getEndPoint() . 'bets');
 
         $betsReturned = json_decode($response->getContent(), true)['data'];
-        $this->assertEquals(5, count($betsReturned));
+        $this->assertEquals(Bet::all()->count(), count($betsReturned));
     }
 
     public function test_a_not_admin_user_can_see_only_his_bet(): void

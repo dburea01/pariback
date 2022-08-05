@@ -4,7 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class EventBetting extends Model
+class UserBet extends Model
 {
     use HasFactory;
     use HasUuid;
@@ -15,15 +15,21 @@ class EventBetting extends Model
 
     protected $fillable = [
         'id',
-        'bettor_id',
+        'bet_id',
+        'user_id',
         'event_id',
         'score_team1',
         'score_team2',
     ];
 
-    public function bettor()
+    public function user()
     {
-        return $this->belongsTo(Bettor::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function bet()
+    {
+        return $this->belongsTo(Bet::class);
     }
 
     public function event()

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -67,5 +66,10 @@ class User extends Authenticatable
     public function bettors()
     {
         return $this->hasMany(Bettor::class);
+    }
+
+    public function userBets()
+    {
+        return $this->hasMany(UserBet::class);
     }
 }

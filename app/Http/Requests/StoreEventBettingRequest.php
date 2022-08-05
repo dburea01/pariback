@@ -2,6 +2,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class StoreEventBettingRequest extends FormRequest
 {
@@ -25,9 +27,32 @@ class StoreEventBettingRequest extends FormRequest
         return [
             'score_team1' => 'required|integer|gte:0',
             'score_team2' => 'required|integer|gte:0',
-            'event_id' => 'required|uuid|exists:events,id',
+            'user_id' => [
+                'required',
+                'uuid',
+                Rule::exists('bettors')->where(function ($query) {
+                    return $query->where('user_id', $this->user_id)
+                    ->where('bet_id', $this->route('bet')->id);
+                })
+            ],
+            'event_id' => 'required|uuid',
         ];
+    }
 
-        // @todo : verifier cohérence entre bet_id, bettor_id, event_id
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            // check integrity between event and bet
+
+            $exists = DB::table('events')
+            ->join('bets', 'bets.phase_id', 'events.phase_id')
+            ->where('bets.id', $this->route('bet')->id)
+            ->where('events.id', $this->event_id)
+            ->get();
+
+            if (count($exists) === 0) {
+                $validator->errors()->add('event_id', trans('validation_others.event_not accepted_for_this_bet'));
+            }
+        });
     }
 }

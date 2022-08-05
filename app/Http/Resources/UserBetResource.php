@@ -3,7 +3,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EventBettingResource extends JsonResource
+class UserBetResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +15,11 @@ class EventBettingResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'bet_id' => $this->bet_id,
             'score_team1' => $this->score_team1,
             'score_team2' => $this->score_team2,
-            'bettor' => new BettorResource($this->bettor),
-            'event' => new EventResource($this->event)
+            'user' => new UserResource($this->user),
+            'event' => new EventResource($this->event),
         ];
     }
 }

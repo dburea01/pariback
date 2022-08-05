@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EventBetting>
  */
-class EventBettingFactory extends Factory
+class UserBetFactory extends Factory
 {
     /**
      * Define the model's default state.
