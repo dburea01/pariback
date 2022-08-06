@@ -47,9 +47,17 @@ trait InsertData
             'team2_id' => $team2->id,
         ]);
 
+        // some bets in progress
         foreach ($users as $user) {
             foreach (Phase::all() as $phase) {
-                Bet::factory()->create(['user_id' => $user->id, 'phase_id' => $phase->id]);
+                Bet::factory()->create(['user_id' => $user->id, 'phase_id' => $phase->id, 'status' => 'INPROGRESS']);
+            }
+        }
+
+        // some bets draft
+        foreach ($users as $user) {
+            foreach (Phase::all() as $phase) {
+                Bet::factory()->create(['user_id' => $user->id, 'phase_id' => $phase->id, 'status' => 'DRAFT']);
             }
         }
 

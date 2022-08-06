@@ -1,13 +1,13 @@
 <?php
+
 namespace App\Http\Requests;
 
-use App\Models\Bettor;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class StoreUserBetRequest extends FormRequest
 {
@@ -55,6 +55,7 @@ class StoreUserBetRequest extends FormRequest
                 $exists = DB::table('events')
                 ->join('bets', 'bets.phase_id', 'events.phase_id')
                 ->where('bets.id', $this->route('bet')->id)
+                //todo: impossible to bet for an event which is STARTED
                 ->where('events.id', $this->event_id)
                 ->get();
 
@@ -62,8 +63,6 @@ class StoreUserBetRequest extends FormRequest
                     $validator->errors()->add('event_id', trans('validation_others.event_not accepted_for_this_bet'));
                 }
             }
-
-            //todo: impossible to bet for an event which is STARTED
         });
     }
 }

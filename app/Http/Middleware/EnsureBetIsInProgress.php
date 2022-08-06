@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use App\Models\Bet;
@@ -23,10 +24,12 @@ class EnsureBetIsInProgress
         $bet = Bet::find($bettor->bet_id);
 
         abort_if($bet->status !== 'INPROGRESS', 403, 'Bet not in progress.');
+        abort_if($request->route('bet')->id !== $bettor->bet_id, 403, 'Bet and token not coherent.');
         $request->merge([
             'bettor' => $bettor,
-            'user_id' => $bettor->user_id
+            'user_id' => $bettor->user_id,
         ]);
+
         return $next($request);
     }
 }
