@@ -2,11 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-class StoreEventBettingRequest extends FormRequest
+class StoreUserBetRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +18,11 @@ class StoreEventBettingRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        if (null !== $this->route('token') && isset($this->user_id)) {
+            Auth::login(User::find($this->user_id));
+        }
+
+        return $this->user()->can('create', [UserBet::class, $this->bet]);
     }
 
     /**
@@ -44,15 +51,17 @@ class StoreEventBettingRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             // check integrity between event and bet
+            if (Str::isUuid($this->event_id)) {
+                $exists = DB::table('events')
+                ->join('bets', 'bets.phase_id', 'events.phase_id')
+                ->where('bets.id', $this->route('bet')->id)
+                //todo: impossible to bet for an event which is STARTED
+                ->where('events.id', $this->event_id)
+                ->get();
 
-            $exists = DB::table('events')
-            ->join('bets', 'bets.phase_id', 'events.phase_id')
-            ->where('bets.id', $this->route('bet')->id)
-            ->where('events.id', $this->event_id)
-            ->get();
-
-            if (count($exists) === 0) {
-                $validator->errors()->add('event_id', trans('validation_others.event_not accepted_for_this_bet'));
+                if (count($exists) === 0) {
+                    $validator->errors()->add('event_id', trans('validation_others.event_not accepted_for_this_bet'));
+                }
             }
         });
     }

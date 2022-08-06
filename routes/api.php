@@ -39,6 +39,12 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('competitions/{competition}/phases', PhaseController::class)->only(['index', 'show'])->whereUuid(['competition', 'phase']);
     Route::apiResource('phases/{phase}/events', EventController::class)->only(['index', 'show'])->whereUuid(['phase', 'event']);
     Route::get('bets/{bet}/bettors', [BettorController::class, 'index'])->whereUuid(['bet', 'bettor']);
+
+    Route::middleware(['ensureBetIsInProgress'])->group(function () {
+        Route::post('/bets/{bet}/{token}/user-bets', [UserBetController::class, 'postUserBetWithToken'])->whereUuid('bet');
+        Route::delete('/bets/{bet}/{token}/user-bets/{userBet}', [UserBetController::class, 'deleteUserBetWithToken'])->whereUuid(['bet', 'userBet']);
+        Route::get('/bets/{bet}/{token}/details', [UserBetController::class, 'getBetDetailsWithToken'])->whereUuid('bet');
+    });
 });
 
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {

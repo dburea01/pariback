@@ -405,7 +405,7 @@
 							"formdata": [
 								{
 									"key": "email",
-									"value": "justen.ohara@example.com",
+									"value": "leone.waters@example.org",
 									"type": "default"
 								},
 								{
@@ -2260,15 +2260,15 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{path}}/phases/0a396485-86dc-49c9-86ce-1eb6dd12a073/events/d924e7f8-32c8-4f75-9d54-8dcbbc6f4f11",
+							"raw": "{{path}}/phases/1a6e3adf-5ddb-437d-b6bb-22f75d0ef2a4/events/5953d692-4035-4bb2-8c80-1d9e6a44407a",
 							"host": [
 								"{{path}}"
 							],
 							"path": [
 								"phases",
-								"0a396485-86dc-49c9-86ce-1eb6dd12a073",
+								"1a6e3adf-5ddb-437d-b6bb-22f75d0ef2a4",
 								"events",
-								"d924e7f8-32c8-4f75-9d54-8dcbbc6f4f11"
+								"5953d692-4035-4bb2-8c80-1d9e6a44407a"
 							]
 						}
 					},
@@ -2782,6 +2782,280 @@
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "UserBets",
+			"item": [
+				{
+					"name": "user-bets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/bets/a8e6625f-f02c-4cb0-8371-2df618dd45ca/user-bets",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"a8e6625f-f02c-4cb0-8371-2df618dd45ca",
+								"user-bets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user-bets filtered",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/bets/a8e6625f-f02c-4cb0-8371-2df618dd45ca/user-bets?userId=8708e5fc-0369-4e01-bba2-ff3fe4ded166&eventId=3bacaee6-ff98-4e04-84ba-9c9c1cb432a2",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"a8e6625f-f02c-4cb0-8371-2df618dd45ca",
+								"user-bets"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "8708e5fc-0369-4e01-bba2-ff3fe4ded166"
+								},
+								{
+									"key": "eventId",
+									"value": "3bacaee6-ff98-4e04-84ba-9c9c1cb432a2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user-bet",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/bets/a8e6625f-f02c-4cb0-8371-2df618dd45ca/user-bets/03a67852-e829-45e4-af44-a62f9e4af5b3",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"a8e6625f-f02c-4cb0-8371-2df618dd45ca",
+								"user-bets",
+								"03a67852-e829-45e4-af44-a62f9e4af5b3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user-bets with errors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/bets/a8e6625f-f02c-4cb0-8371-2df618dd45ca/user-bets",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"a8e6625f-f02c-4cb0-8371-2df618dd45ca",
+								"user-bets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user-bets OK",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"score_team1\": \"21\",\r\n    \"score_team2\": \"25\",\r\n    \"event_id\": \"00f18e5d-fecb-4032-b222-65a90abe29ac\",\r\n    \"user_id\" :\"8708e5fc-0369-4e01-bba2-ff3fe4ded166\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/bets/e6d33ac4-cd0a-4000-8787-dd2de6fa1a73/user-bets",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"e6d33ac4-cd0a-4000-8787-dd2de6fa1a73",
+								"user-bets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user-bet",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"score_team1\": \"1\",\r\n    \"score_team2\": \"2\",\r\n    \"event_id\": \"809de141-bceb-4162-a481-6a2a8685b16a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/bets/e6d33ac4-cd0a-4000-8787-dd2de6fa1a73/user-bets/6bee11b1-d81a-4ea1-9441-d38b2b93cf69",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"e6d33ac4-cd0a-4000-8787-dd2de6fa1a73",
+								"user-bets",
+								"6bee11b1-d81a-4ea1-9441-d38b2b93cf69"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "betWithToken",
+			"item": [
+				{
+					"name": "get details of bet with token",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{path}}/bets/0a38247d-412d-454e-8cc0-eee551f97a71/8yOZ88/details",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"0a38247d-412d-454e-8cc0-eee551f97a71",
+								"8yOZ88",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post user bet with token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"score_team1\": \"41\",\r\n    \"score_team2\": \"513\",\r\n    \"event_id\": \"3bacaee6-ff98-4e04-84ba-9c9c1cb432a2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{path}}/bets/0a38247d-412d-454e-8cc0-eee551f97a71/8yOZ88/user-bets",
+							"host": [
+								"{{path}}"
+							],
+							"path": [
+								"bets",
+								"0a38247d-412d-454e-8cc0-eee551f97a71",
+								"8yOZ88",
+								"user-bets"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}
