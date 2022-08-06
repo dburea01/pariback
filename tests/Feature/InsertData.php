@@ -39,16 +39,19 @@ trait InsertData
             }
         }
 
-        $users = User::factory()->count(5)->create(['is_admin' => false]);
-        $userAdmin = User::factory()->create(['is_admin' => true]);
-        $event1 = Event::factory()->count(5)->create([
+        $users = User::factory()->count(2)->create(['is_admin' => false, 'status' => 'VALIDATED']);
+        $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
+        $event1 = Event::factory()->count(2)->create([
             'phase_id' => $phase1->id,
             'team1_id' => $team1->id,
             'team2_id' => $team2->id,
         ]);
 
-        $bet1 = Bet::factory()->create(['user_id' => $users->random()->id, 'phase_id' => $phase1->id]);
-        $bet2 = Bet::factory()->create(['user_id' => $users->random()->id, 'phase_id' => $phase2->id]);
+        foreach ($users as $user) {
+            foreach (Phase::all() as $phase) {
+                Bet::factory()->create(['user_id' => $user->id, 'phase_id' => $phase->id]);
+            }
+        }
 
         foreach (Bet::all() as $bet) {
             foreach (User::all() as $user) {

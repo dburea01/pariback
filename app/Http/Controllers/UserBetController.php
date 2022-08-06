@@ -28,6 +28,7 @@ class UserBetController extends Controller
 
     public function index(Bet $bet, Request $request)
     {
+        $this->authorize('viewAny', [UserBet::class, $bet]);
         $userBets = $this->userBetRepository->index($bet, $request->all());
 
         return UserBetResource::collection($userBets);
@@ -35,6 +36,7 @@ class UserBetController extends Controller
 
     public function store(Bet $bet, StoreEventBettingRequest $request)
     {
+        $this->authorize('create', [UserBet::class, $bet]);
         try {
             $userBet = $this->userBetRepository->store($bet, $request->all());
 
@@ -46,11 +48,14 @@ class UserBetController extends Controller
 
     public function show(Bet $bet, UserBet $userBet)
     {
+        $this->authorize('view', [UserBet::class, $bet]);
+
         return new UserBetResource($userBet);
     }
 
     public function destroy(Bet $bet, UserBet $userBet)
     {
+        $this->authorize('delete', [UserBet::class, $bet]);
         try {
             $this->userBetRepository->destroy($userBet);
 
