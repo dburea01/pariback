@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             EventSeeder::class,
             BetSeeder::class,
             BettorSeeder::class,
+            UserBetSeeder::class,
         ]);
     }
 }

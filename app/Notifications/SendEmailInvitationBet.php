@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Notifications;
 
 use App\Models\Bet;
@@ -51,7 +52,7 @@ class SendEmailInvitationBet extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = config('app.url') . '/tobet/' . $this->token;
+        $url = config('app.url').'/tobet/'.$this->token;
 
         $message = new MailMessage();
         $message->subject(trans('emailInvitationBet.subject', ['app_name' => config('app.name')]));

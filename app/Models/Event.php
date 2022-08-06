@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -49,8 +50,13 @@ class Event extends Model
         return $this->belongsTo(Team::class, 'team2_id');
     }
 
-    public function eventBettings()
+    public function userBets()
     {
-        return $this->hasMany(EventBetting::class);
+        return $this->hasMany(UserBet::class);
+    }
+
+    public function getStartedAttribute()
+    {
+        return Carbon::now()->addMinutes(15) > Carbon::createFromFormat('Y-m-d H:i', $this->date) ? true : false;
     }
 }

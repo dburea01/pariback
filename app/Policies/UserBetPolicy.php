@@ -6,7 +6,7 @@ use App\Models\Bet;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class BettorPolicy
+class UserBetPolicy
 {
     use HandlesAuthorization;
 
@@ -17,6 +17,16 @@ class BettorPolicy
         }
     }
 
+    public function viewAny(User $user, Bet $bet)
+    {
+        return $bet->user_id === $user->id;
+    }
+
+    public function view(User $user, Bet $bet)
+    {
+        return $bet->user_id === $user->id;
+    }
+
     public function create(User $user, Bet $bet)
     {
         return $bet->user_id === $user->id;
@@ -24,11 +34,6 @@ class BettorPolicy
 
     public function delete(User $user, Bet $bet)
     {
-        return $bet->user_id === $user->id;
-    }
-
-    public function resendEmailInvitation(User $user, Bet $bet)
-    {
-        return $bet->user_id === $user->id;
+        return $user->id === $bet->user_id;
     }
 }

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Bet;
+use App\Models\Bettor;
 use App\Models\Competition;
 use App\Models\Country;
 use App\Models\Event;
@@ -11,6 +12,7 @@ use App\Models\Phase;
 use App\Models\Sport;
 use App\Models\Team;
 use App\Models\User;
+use App\Models\UserBet;
 
 trait InsertData
 {
@@ -20,15 +22,15 @@ trait InsertData
         $sport = Sport::factory()->create(['id' => 'TEST_SPORT']);
         $competition = Competition::factory()->create(['country_id' => $country->id, 'sport_id' => $sport->id]);
 
-        Team::factory()->create(['country_id' => $country->id, 'sport_id' => $sport->id, 'short_name' => 'TEAM1_TEST']);
-        Team::factory()->create(['country_id' => $country->id, 'sport_id' => $sport->id, 'short_name' => 'TEAM2_TEST']);
+        $team1 = Team::factory()->create(['country_id' => $country->id, 'sport_id' => $sport->id, 'short_name' => 'TEAM1_TEST']);
+        $team2 = Team::factory()->create(['country_id' => $country->id, 'sport_id' => $sport->id, 'short_name' => 'TEAM2_TEST']);
 
         foreach (Team::all() as $team) {
             Participation::factory()->create(['competition_id' => $competition->id, 'team_id' => $team->id]);
         }
 
-        $phase1 = Phase::factory()->create(['competition_id' => $competition->id, 'short_name' => 'PHASE1']);
-        $phase2 = Phase::factory()->create(['competition_id' => $competition->id, 'short_name' => 'PHASE2']);
+        $phase1 = Phase::factory()->create(['competition_id' => $competition->id, 'short_name' => 'PHASE1_TEST']);
+        $phase2 = Phase::factory()->create(['competition_id' => $competition->id, 'short_name' => 'PHASE2_TEST']);
 
         foreach (Phase::all() as $phase) {
             foreach (Team::all() as $team) {
@@ -37,12 +39,39 @@ trait InsertData
             }
         }
 
-        /*
-        $user1 = User::factory()->create(['is_admin' => false]);
-        $user2 = User::factory()->create(['is_admin' => true]);
+        $users = User::factory()->count(2)->create(['is_admin' => false, 'status' => 'VALIDATED']);
+        $userAdmin = User::factory()->create(['is_admin' => true, 'status' => 'VALIDATED']);
+        $event1 = Event::factory()->count(2)->create([
+            'phase_id' => $phase1->id,
+            'team1_id' => $team1->id,
+            'team2_id' => $team2->id,
+        ]);
 
-         Bet::factory()->count(3)->create(['user_id' => $user1->id, 'phase_id' => $phase1->id]);
-        Bet::factory()->count(2)->create(['user_id' => $user2->id, 'phase_id' => $phase2->id]);
-        */
+        foreach ($users as $user) {
+            foreach (Phase::all() as $phase) {
+                Bet::factory()->create(['user_id' => $user->id, 'phase_id' => $phase->id]);
+            }
+        }
+
+        foreach (Bet::all() as $bet) {
+            foreach (User::all() as $user) {
+                Bettor::factory()->create([
+                    'bet_id' => $bet->id,
+                    'user_id' => $user->id,
+                ]);
+            }
+        }
+
+        foreach (Bet::all() as $bet) {
+            foreach (Bettor::where('bet_id', $bet->id)->get() as $bettor) {
+                foreach (Event::all() as $event) {
+                    UserBet::factory()->create([
+                        'bet_id' => $bet->id,
+                        'user_id' => $bettor->user_id,
+                        'event_id' => $event->id,
+                    ]);
+                }
+            }
+        }
     }
 }

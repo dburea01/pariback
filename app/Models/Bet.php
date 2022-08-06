@@ -39,4 +39,9 @@ class Bet extends Model
     {
         return $this->belongsTo(Phase::class);
     }
+
+    public function userBets()
+    {
+        return $this->hasMany(UserBet::class);
+    }
 }
