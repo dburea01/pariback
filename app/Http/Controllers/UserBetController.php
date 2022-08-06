@@ -1,12 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use App\Models\EventBetting;
 use App\Http\Requests\StoreEventBettingRequest;
-use App\Http\Resources\EventBettingResource;
 use App\Http\Resources\UserBetResource;
 use App\Models\Bet;
-use App\Models\Bettor;
 use App\Models\UserBet;
 use App\Repositories\BettorRepository;
 use App\Repositories\UserBetRepository;
@@ -42,7 +40,7 @@ class UserBetController extends Controller
 
             return new UserBetResource($userBet);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the userBet. ' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the userBet. '.$th->getMessage()]);
         }
     }
 
@@ -58,7 +56,7 @@ class UserBetController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the userBet. ' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the userBet. '.$th->getMessage()]);
         }
     }
 }

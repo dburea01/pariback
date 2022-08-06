@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Feature;
 
 use App\Models\Bet;
@@ -43,7 +44,7 @@ trait InsertData
         $event1 = Event::factory()->count(5)->create([
             'phase_id' => $phase1->id,
             'team1_id' => $team1->id,
-            'team2_id' => $team2->id
+            'team2_id' => $team2->id,
         ]);
 
         $bet1 = Bet::factory()->create(['user_id' => $users->random()->id, 'phase_id' => $phase1->id]);
@@ -53,7 +54,7 @@ trait InsertData
             foreach (User::all() as $user) {
                 Bettor::factory()->create([
                     'bet_id' => $bet->id,
-                    'user_id' => $user->id
+                    'user_id' => $user->id,
                 ]);
             }
         }
@@ -64,7 +65,7 @@ trait InsertData
                     UserBet::factory()->create([
                         'bet_id' => $bet->id,
                         'user_id' => $bettor->user_id,
-                        'event_id' => $event->id
+                        'event_id' => $event->id,
                     ]);
                 }
             }

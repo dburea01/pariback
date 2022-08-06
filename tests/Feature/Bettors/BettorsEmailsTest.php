@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Feature;
 
 use App\Models\Bet;
@@ -27,7 +28,7 @@ class BettorsEmailsTest extends TestCase
         $this->create_bettors($bet, 3);
 
         $this->actingAs($user);
-        $response = $this->patchJson($this->getEndPoint() . "bets/$bet->id/activate");
+        $response = $this->patchJson($this->getEndPoint()."bets/$bet->id/activate");
         $response->assertStatus(200);
         Notification::assertCount(3);
     }
@@ -44,7 +45,7 @@ class BettorsEmailsTest extends TestCase
         $bettor = Bettor::where('bet_id', $bet->id)->first();
 
         $this->actingAs($user);
-        $response = $this->postJson($this->getEndPoint() . "bets/$bet->id/bettors/$bettor->id/resend-email-invitation");
+        $response = $this->postJson($this->getEndPoint()."bets/$bet->id/bettors/$bettor->id/resend-email-invitation");
         $response->assertStatus(200);
         Notification::assertCount(1);
     }
@@ -61,7 +62,7 @@ class BettorsEmailsTest extends TestCase
         $bettor = Bettor::where('bet_id', $bet->id)->first();
 
         $this->actingAs($user);
-        $response = $this->postJson($this->getEndPoint() . "bets/$bet->id/bettors/$bettor->id/resend-email-invitation");
+        $response = $this->postJson($this->getEndPoint()."bets/$bet->id/bettors/$bettor->id/resend-email-invitation");
         $response->assertStatus(403);
         Notification::assertCount(0);
     }
@@ -84,7 +85,7 @@ class BettorsEmailsTest extends TestCase
         ]);
 
         $this->actingAs($user);
-        $response = $this->postJson($this->getEndPoint() . "bets/$bet->id/bettors/$bettorToResend->id/resend-email-invitation");
+        $response = $this->postJson($this->getEndPoint()."bets/$bet->id/bettors/$bettorToResend->id/resend-email-invitation");
         $response->assertStatus(422);
         Notification::assertCount(0);
     }

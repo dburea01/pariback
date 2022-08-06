@@ -1,9 +1,8 @@
 <?php
+
 namespace App\Repositories;
 
 use App\Models\Bet;
-use App\Models\Bettor;
-use App\Models\EventBetting;
 use App\Models\UserBet;
 use Illuminate\Support\Str;
 

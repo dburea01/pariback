@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -33,7 +34,7 @@ class StoreEventBettingRequest extends FormRequest
                 Rule::exists('bettors')->where(function ($query) {
                     return $query->where('user_id', $this->user_id)
                     ->where('bet_id', $this->route('bet')->id);
-                })
+                }),
             ],
             'event_id' => 'required|uuid',
         ];

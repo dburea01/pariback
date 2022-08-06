@@ -1,13 +1,12 @@
 <?php
+
 namespace Database\Seeders;
 
 use App\Models\Bet;
 use App\Models\Bettor;
 use App\Models\Event;
-use App\Models\Phase;
 use App\Models\UserBet;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class UserBetSeeder extends Seeder
 {
