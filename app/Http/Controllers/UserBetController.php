@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserBetRequest;
@@ -39,13 +38,12 @@ class UserBetController extends Controller
 
     public function store(Bet $bet, StoreUserBetRequest $request)
     {
-        // $this->authorize('create', [UserBet::class, $bet]);
         try {
             $userBet = $this->userBetRepository->store($bet, $request->all());
 
             return new UserBetResource($userBet);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the userBet. '.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the userBet. ' . $th->getMessage()]);
         }
     }
 
@@ -64,7 +62,7 @@ class UserBetController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the userBet. '.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the userBet. ' . $th->getMessage()]);
         }
     }
 
@@ -80,7 +78,7 @@ class UserBetController extends Controller
 
             return new UserBetResource($userBet);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the userBet with this token. '.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the userBet with this token. ' . $th->getMessage()]);
         }
     }
 
@@ -96,7 +94,7 @@ class UserBetController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the userBet with this token. '.$th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the userBet with this token. ' . $th->getMessage()]);
         }
     }
 }
