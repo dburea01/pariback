@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -67,5 +66,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'ensureUserIsAdmin' => \App\Http\Middleware\EnsureUserIsAdmin::class,
+        'ensureBetIsInProgress' => \App\Http\Middleware\EnsureBetIsInProgress::class,
     ];
 }
