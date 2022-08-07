@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Feature;
 
 use App\Models\Bet;
@@ -19,7 +18,7 @@ class UserBetsWithTokenPoliciesTest extends TestCase
         $bet = Bet::where('status', '<>', 'INPROGRESS')->first();
         $bettor = Bettor::where('bet_id', $bet->id)->first();
 
-        $response = $this->getJson($this->getEndPoint()."bets/$bet->id/$bettor->token/details");
+        $response = $this->getJson($this->getEndPoint() . "bets/$bet->id/$bettor->token/details");
         $response->assertStatus(403);
     }
 
@@ -28,7 +27,7 @@ class UserBetsWithTokenPoliciesTest extends TestCase
         $this->insert_data();
         $bet = Bet::where('status', '<>', 'INPROGRESS')->first();
 
-        $response = $this->getJson($this->getEndPoint()."bets/$bet->id/FAKETOKEN/details");
+        $response = $this->getJson($this->getEndPoint() . "bets/$bet->id/FAKETOKEN/details");
         $response->assertStatus(404);
     }
 
@@ -38,7 +37,7 @@ class UserBetsWithTokenPoliciesTest extends TestCase
         $bet = Bet::where('status', '<>', 'INPROGRESS')->first();
         $bettor = Bettor::where('bet_id', '<>', $bet->id)->first();
 
-        $response = $this->getJson($this->getEndPoint()."bets/$bet->id/$bettor->token/details");
-        $response->assertStatus(403);
+        $response = $this->getJson($this->getEndPoint() . "bets/$bet->id/$bettor->token/details");
+        $response->assertStatus(404);
     }
 }

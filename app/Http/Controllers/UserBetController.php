@@ -3,12 +3,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserBetRequest;
 use App\Http\Resources\BetResource;
+use App\Http\Resources\BettorResource;
+use App\Http\Resources\ResultBetResource;
+use App\Http\Resources\ResultResource;
 use App\Http\Resources\UserBetResource;
 use App\Models\Bet;
 use App\Models\User;
 use App\Models\UserBet;
 use App\Repositories\BettorRepository;
 use App\Repositories\UserBetRepository;
+use App\Services\BetService;
 use App\Services\BettorService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,14 +22,16 @@ class UserBetController extends Controller
     public $userBetRepository;
 
     public $bettorService;
+    public $betService;
 
     public $bettorRepository;
 
-    public function __construct(UserBetRepository $userBetRepository, BettorService $bettorService, BettorRepository $bettorRepository)
+    public function __construct(UserBetRepository $userBetRepository, BettorService $bettorService, BetService $betService, BettorRepository $bettorRepository)
     {
         $this->userBetRepository = $userBetRepository;
         $this->bettorService = $bettorService;
         $this->bettorRepository = $bettorRepository;
+        $this->betService = $betService;
     }
 
     public function index(Bet $bet, Request $request)
@@ -96,5 +102,12 @@ class UserBetController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Impossible to delete the userBet with this token. ' . $th->getMessage()]);
         }
+    }
+
+    public function getBetResultsWithToken(Bet $bet, string $token)
+    {
+        $bettorsWithRank = $this->betService->bettorsWithRank($bet);
+        return $bettorsWithRank;
+        return ResultBetResource::collection($bettorsWithRank);
     }
 }

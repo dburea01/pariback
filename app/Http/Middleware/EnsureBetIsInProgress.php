@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Middleware;
 
 use App\Models\Bet;
@@ -18,13 +17,13 @@ class EnsureBetIsInProgress
      */
     public function handle(Request $request, Closure $next)
     {
-        $bettor = Bettor::where('token', $request->route('token'))->first();
-        abort_if(is_null($bettor), 404);
+        $bettor = Bettor::where('token', $request->route('token'))
+        ->where('bet_id', $request->route('bet')->id)
+        ->with('bet')
+        ->firstOrFail();
 
-        $bet = Bet::find($bettor->bet_id);
+        abort_if($bettor->bet->status !== 'INPROGRESS', 403, 'Bet not in progress.');
 
-        abort_if($bet->status !== 'INPROGRESS', 403, 'Bet not in progress.');
-        abort_if($request->route('bet')->id !== $bettor->bet_id, 403, 'Bet and token not coherent.');
         $request->merge([
             'bettor' => $bettor,
             'user_id' => $bettor->user_id,
