@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\Bet;
@@ -31,7 +32,7 @@ class BettorService
             }
 
             if (config('app.env') !== 'production') {
-                Log::info('invitation pour user ' . $bettor->user_id);
+                Log::info('invitation pour user '.$bettor->user_id);
                 Log::info('attente 2 sec poru mailtrap.....');
                 sleep(2);
             }

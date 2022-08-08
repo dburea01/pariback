@@ -1,7 +1,7 @@
 <?php
+
 namespace App\Http\Middleware;
 
-use App\Models\Bet;
 use App\Models\Bettor;
 use Closure;
 use Illuminate\Http\Request;

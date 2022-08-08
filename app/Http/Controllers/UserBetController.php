@@ -1,11 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserBetRequest;
 use App\Http\Resources\BetResource;
-use App\Http\Resources\BettorResource;
 use App\Http\Resources\ResultBetResource;
-use App\Http\Resources\ResultResource;
 use App\Http\Resources\UserBetResource;
 use App\Models\Bet;
 use App\Models\User;
@@ -22,6 +21,7 @@ class UserBetController extends Controller
     public $userBetRepository;
 
     public $bettorService;
+
     public $betService;
 
     public $bettorRepository;
@@ -49,7 +49,7 @@ class UserBetController extends Controller
 
             return new UserBetResource($userBet);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the userBet. ' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the userBet. '.$th->getMessage()]);
         }
     }
 
@@ -68,7 +68,7 @@ class UserBetController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the userBet. ' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the userBet. '.$th->getMessage()]);
         }
     }
 
@@ -84,7 +84,7 @@ class UserBetController extends Controller
 
             return new UserBetResource($userBet);
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to create the userBet with this token. ' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to create the userBet with this token. '.$th->getMessage()]);
         }
     }
 
@@ -100,14 +100,15 @@ class UserBetController extends Controller
 
             return response()->noContent();
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'Impossible to delete the userBet with this token. ' . $th->getMessage()]);
+            return response()->json(['error' => 'Impossible to delete the userBet with this token. '.$th->getMessage()]);
         }
     }
 
-    public function getBetResultsWithToken(Bet $bet, string $token)
+    public function getBetResultsDetailsWithToken(Bet $bet, string $token)
     {
-        $bettorsWithRank = $this->betService->bettorsWithRank($bet);
-        return $bettorsWithRank;
-        return ResultBetResource::collection($bettorsWithRank);
+        // TODO : authorizations
+        $betResultsDetails = $this->betService->bettorsWithRank($bet);
+
+        return ResultBetResource::collection($betResultsDetails);
     }
 }

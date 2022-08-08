@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -20,7 +21,7 @@ class ResultBettorResource extends JsonResource
             'score_team1' => $this->score_team1,
             'score_team2' => $this->score_team2,
             'points_for_this_user_bet' => $this->points_for_this_user_bet,
-            'event' => new EventResource($this->event)
+            'event' => new EventResource($this->event),
         ];
     }
 }
