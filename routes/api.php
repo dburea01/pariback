@@ -44,6 +44,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/bets/{bet}/{token}/user-bets', [UserBetController::class, 'postUserBetWithToken'])->whereUuid('bet');
         Route::delete('/bets/{bet}/{token}/user-bets/{userBet}', [UserBetController::class, 'deleteUserBetWithToken'])->whereUuid(['bet', 'userBet']);
         Route::get('/bets/{bet}/{token}/details', [UserBetController::class, 'getBetDetailsWithToken'])->whereUuid('bet');
+        Route::get('/bets/{bet}/{token}/results-details', [UserBetController::class, 'getBetResultsDetailsWithToken'])->whereUuid('bet');
     });
 });
 

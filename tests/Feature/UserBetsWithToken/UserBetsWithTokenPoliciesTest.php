@@ -39,6 +39,6 @@ class UserBetsWithTokenPoliciesTest extends TestCase
         $bettor = Bettor::where('bet_id', '<>', $bet->id)->first();
 
         $response = $this->getJson($this->getEndPoint()."bets/$bet->id/$bettor->token/details");
-        $response->assertStatus(403);
+        $response->assertStatus(404);
     }
 }
